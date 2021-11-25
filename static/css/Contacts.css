@@ -1,0 +1,105 @@
+@import url('https://fonts.googleapis.com/css?family=Numans');
+*{
+	margin: 0px;
+	padding: 0px;
+	box-sizing: border-box;
+	font-family: 'Numans', sans-serif;
+}
+.menu{
+	margin-left: 40px;
+}
+.menu li a{
+	height: 40px;
+	line-height: 43px;
+	margin: 5px;       
+	padding: 0px 22px;
+	font-size: 1em;
+	text-transform: uppercase;
+	font-weight: 500;
+	letter-spacing: 1px;
+	text-decoration: none;
+}
+.menu li:hover{
+	background-color: #ddd;
+	transition: all .3s;
+}
+#top_header{
+	margin: 0;
+	background: beige;
+	border-bottom: 2px solid beige;
+	padding: 20px;
+	justify-content: space-around;
+	align-self: center;
+}
+.logo{
+	height: 50px;
+	margin-left:40px;
+	text-decoration: none;
+}
+.register{
+	margin-right: 40px;
+}
+.register li a{
+	height: 40px;
+	line-height: 43px;
+	margin: 5px;
+	padding: 0px 22px;
+	font-size: 1em;
+	text-transform: uppercase;
+	font-weight: 500;
+	letter-spacing: 1px;
+	text-decoration: none;
+}
+.register li:hover{
+	background-color: #ddd;
+	transition: all .3s;
+}
+.contact{
+	position:relative;
+	padding: 50px 100px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+}
+.content{
+	max-width: 800px;
+	text-align: center;
+}
+h2{
+	font-size: 36px;
+	font-weight:500;
+	color: rgb(0, 0, 0);
+}
+p{
+	font-weight:300;
+	color: rgb(0, 0, 0);
+}
+
+.container {
+    width : 100%;
+	display:flex;
+	justify-content:center;
+	align-items: center;
+	margin-top: 30px;
+}
+.box{
+	position: relative;
+	padding:20px 0;
+	display: flex;
+    flex-direction:column;
+}
+.box .icon{
+	min-width: 60px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-radius:50%;
+    color:#00bcd4;
+}
+ .box .text
+{
+	display: flex;
+	margin-left:20px;
+	font-size: 20px;
+}

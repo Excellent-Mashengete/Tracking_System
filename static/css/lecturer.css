@@ -1,0 +1,102 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+html{
+    width: 100vw;
+}
+.stud{
+    margin-left: 110px;
+    cursor: pointer;
+}
+.stud li a{
+    height: 40px;
+    line-height: 43px;
+    margin: 5px;       
+    padding: 0px 22px;
+    font-size: 1em;
+    text-transform: uppercase;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-decoration: none;
+}
+#top_header{
+    background: beige;
+    border-bottom: 2px solid beige;
+    justify-content: space-around;
+    align-self: center;
+}
+.logo{
+    height: 50px;
+    margin-left:40px;
+}
+#panel{
+    padding:8px;
+    width: 350px;
+}
+#side span:hover{
+    margin:1px;
+    cursor: pointer; 
+}
+#side span{
+    color: white;
+}
+.sidenav {
+    height: 100%; 
+    width: 0; 
+    position: fixed; 
+    z-index: 1; 
+    top: 0; 
+    right: 0; 
+    background-color: rgb(98, 0, 255);
+    overflow-x: hidden; 
+    transition: 0.5s; 
+    padding-top: 60px; 
+}
+.sidenav a {
+    padding: 8px 8px 8px 32px; 
+    text-decoration: none; 
+    font-size: 25px; 
+    color: #f1f1f1;
+    display: block; 
+    transition: 0.3s;
+}
+.sidenav a:hover {
+    color: #f1f1f1;
+    transition: all .3s;
+}
+.sidenav .closebtn {
+    position: absolute; 
+    top: 0; 
+    right: 25px; 
+    font-size: 36px; 
+    margin-left: 50px;
+}
+#courses1{
+    margin: 20px 0px 0px 0px;
+}
+.profile{
+    background-image: url("profile2.png");
+    background-size: 60px;
+    height: 10vh
+}
+.center{
+    text-align: center;
+}
+#courses{
+    border-style: groove;
+    width: 500px;
+    margin-left: 10px;
+}
+#modules{
+    text-align: center;
+    margin: 1;
+
+}
+#module1{
+    margin:1px;
+    transition: all 0.5s ease;
+}
+.logout{
+    margin-left: 40%;
+}

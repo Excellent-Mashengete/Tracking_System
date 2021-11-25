@@ -1,0 +1,57 @@
+{% extends "studentLayout.html" %}
+{% block content %}
+    <div class="container col-sm-6" style="margin-top:10px;">		
+		<div class="justify-content-center">
+			<div class="card">
+				<div class="card-header" style="text-align:center;">VIEW LOGGED IN STUDENTS DETAILS</div>
+				<div class="card-body">
+					{% for range in student_profile %}
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label class="text-info">First Name::</label>
+									<input type="text" name="stud_first_name" class="form-control" readonly 
+										value="{{range.stud_first_name}}"/>
+								</div>
+							</div>
+							<div class="col-md-6">	
+								<div class="form-group">
+									<label class="text-info">Last name:</label>
+									<input type="text" name="stud_last_name" class="form-control" readonly 
+										value="{{range.stud_last_name}}"/>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="text-info">Student number:</label>
+							<input type="student_num" name="student_num" readonly class="form-control"
+								value="{{range.student_num}}">
+						</div>
+						<div class=" form-group">
+							<label class="text-info">Email:</label>
+							<input type="text" name="stud_email" readonly class="form-control"
+								value="{{range.stud_email}}"/>
+						</div>
+
+						<div class="row">
+							<div class="col-md-4">
+								<div class="form-group">
+									<label class="text-info">Course Code:</label>
+									<input type="text" name="course_code" class="form-control" readonly 
+										value="{{range.course_code}}"/>
+								</div>
+							</div>
+							<div class="col-md-4">	
+								<div class="form-group">
+									<label class="text-info">NSFAS Status:</label>
+									<input type="text" name="nsfas_status" class="form-control" readonly 
+										value="{{range.nsfas_status}}"/>
+								</div>
+							</div>
+						</div>
+					{% endfor %} 
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

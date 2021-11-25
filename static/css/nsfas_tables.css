@@ -1,0 +1,39 @@
+*{ 
+	margin: 0;
+	padding: 0px;
+}
+.stud_list{
+    font-size: 25px;
+    text-transform: uppercase;
+    color: #dae1e8;
+    margin-bottom: 10px;
+}
+
+#top_header{
+    margin: 0;
+    margin-bottom: 20px;
+    background: beige;
+    border-bottom: 2px solid beige;
+    padding: 20px;
+}
+
+table.dataTable thead .sorting:after,
+table.dataTable thead .sorting:before,
+table.dataTable thead .sorting_asc:after,
+table.dataTable thead .sorting_asc:before,
+table.dataTable thead .sorting_asc_disabled:after,
+table.dataTable thead .sorting_asc_disabled:before,
+table.dataTable thead .sorting_desc:after,
+table.dataTable thead .sorting_desc:before,
+table.dataTable thead .sorting_desc_disabled:after,
+table.dataTable thead .sorting_desc_disabled:before {
+	bottom: .5em;
+}
+#container{
+    margin-top: 25px;
+    margin-bottom: 10px;
+}
+.rowReport{
+    display: inline-flex;
+    text-align: center;
+}

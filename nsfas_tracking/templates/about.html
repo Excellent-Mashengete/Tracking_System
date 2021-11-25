@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+	<head>
+        <meta charset ="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>About</title>
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'css/abouts.css' %}">
+        <link rel="icon" href="{% static 'imgs/nsfas.png' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'contact/fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'contact/fonts/Linearicons-Free-v1.0.0/icon-font.min.css' %}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/4.1.0/litera/bootstrap.min.css">
+
+    </head>
+    <body>
+        <nav id="top_header" class="navbar navbar-expand-lg">
+            <div class="container-fluid main">
+                <a href="{% url 'home' %}">
+                <img class="logo" src="http://127.0.0.1:8000/static/imgs/nsfas.png" alt="Tracking System logo">
+                <h5>NSFAS Tracking System</h5></a>
+
+                <ul class="navbar-nav me-auto menu">
+                    <li class="nav-item"><a class="nav-link" href="{% url 'about' %}"><i class="fa fa-user"></i>About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'contact' %}"><i class="fa fa-envelope"></i>Contacts</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#"><i class="fa fa-cog"></i>Services</a></li> 
+                </ul>
+                    
+                <ul class="navbar-nav me-auto register">
+                    <li class="nav-item"><a class="nav-link" href="{% url 'stud_login' %}"><i class="fa fa-sign-in"></i>Login</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'register' %}"><i class="fa fa-pencil"></i>Register</a></li>
+                </ul>
+            </div>
+        </nav> 
+        <div class="container" style="margin-top: -3%;">
+            <img src="http://127.0.0.1:8000/static/imgs/nsfas.png" alt="Tracking System logo" class="center">
+            <h1>NSFAS TRACKING SYSTEM</h1>
+        </div>
+        <div class="container about" style="margin-bottom: 3%;">
+            <div class="row justify-content-center">           
+                
+                <h4>MISSION STATEMENT</h4>
+                <p>With the battle of a pandemic, the world has changed, with our country having to fast
+                    track the 4th industrial revolution introduced by the precident, each organization and 
+                    institutions have moved to doing their daily business online. Many institutions introduced
+                    online learning in order to continue teaching and learning, but many students are reluctant 
+                    to attent this online classes</p> 
+                <p>Our mission statement is to save money that the NSFAS invest in a student and to encourage
+                    student to attend online classes as they are important as those that are campus based
+                </p>
+                            
+                    <h4>SYSTEM REQUIREMENT</h4>
+                <p>The system will help the NSFAS department to keep track of the student,whether
+                    the student is attending classes or not, In doing so the student will have to log
+                    into the system. upon log in the student will find an MS Team link that would have
+                    been posted by the lecture so that the student can attend the class online.
+                </p>
+                <p>The NSFAS office on their page they will be able to view all the students who 
+                    attended all the sissions that a lecturer posted. Time(duration in which student 
+                    attended the lesson) and date will be recorded.
+                </p>
+                <p>The System will generate the report so that the NSFAS office can be able to see the
+                    activities of the students and overal attendence of online classes.
+                </p>
+            </div>
+        </div>
+        <footer class="container-fluid footer">
+            <div class="row footer-content" style="margin-left:30px;">
+                <div class="col-3" class="footer-section about">
+                    <h3>Tracking System</h3>
+                    <p>Education is the key to success</p>
+                    <div class="social">
+                        <i class="fa fa-instagram"></i>
+                        <i class="fa fa-facebook-square"></i>
+                        <i class="fa fa-linkedin"></i>
+                    </div>
+                </div>
+                <div class="col-3" class="footer-section info">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="{% url 'home' %}">Home</a></li>
+                        <li><a href="{% url 'about' %}">About</a></li>
+                        <li><a href="{% url 'contact' %}">Contact</a></li>
+                        <li><a href="/admin/">Admin</a></li>
+                    </ul>
+                </div>
+                <div class="col-3" class="footer-section links">
+                    <h3>NSFAS Details</h3>
+                    <ul>
+                        <li><a href="https://www.nsfas.org.za/content/">Nsfas Website</a></li>
+                        Toll Free: 08000 67327
+                        <div id="social">
+                            <a href="https://www.instagram.com/mynsfas/"><i class="fa fa-instagram"></i></a>
+                            <a href="https://www.facebook.com/nsfas.org.za"><i class="fa fa-facebook-square"></i></a>
+                        </div>
+                    </ul>
+                </div> 
+            </div>
+            <div class="container-fluid footer-bottom" style="width: 100vw; margin-left: -2.5%; ">
+                <p>&copy;2021 TRACKING_SYSTEM - ALL RIGHTS RESERVED</p>
+            </div>
+        </footer> 
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+        <!-- JavaScript Bundle with Popper -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+	</body>
+</html>

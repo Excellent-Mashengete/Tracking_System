@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+	<head>
+        <meta charset ="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Contact</title>
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'css/home.css' %}">
+		<link rel="icon" href="{% static 'imgs/nsfas.png' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'contact/fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'contact/fonts/Linearicons-Free-v1.0.0/icon-font.min.css' %}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/4.1.0/litera/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="{% static 'contact/css/util.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'contact/css/main.css' %}">
+    </head>
+    <body>
+        <nav id="top_header" class="navbar navbar-expand-lg">
+            <div class="container-fluid main">
+                <a href="{% url 'home' %}">
+                <img class="logo" src="http://127.0.0.1:8000/static/imgs/nsfas.png" alt="Tracking System logo">
+                <h5>NSFAS Tracking System</h5></a>
+
+                <ul class="navbar-nav me-auto menu">
+                    <li class="nav-item"><a class="nav-link" href="{% url 'about' %}"><i class="fa fa-user"></i>About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'contact' %}"><i class="fa fa-envelope"></i>Contacts</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#"><i class="fa fa-cog"></i>Services</a></li> 
+                </ul>
+                    
+                <ul class="navbar-nav me-auto register">
+                    <li class="nav-item"><a class="nav-link" href="{% url 'stud_login' %}"><i class="fa fa-sign-in"></i>Login</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'register' %}"><i class="fa fa-pencil"></i>Register</a></li>
+                </ul>
+            </div>
+        </nav>  
+
+
+
+		<div class="container-contact100">
+			<div class="contact100-map" id="google_map" data-map-x="40.722047" data-map-y="-73.986422" data-pin="images/icons/map-marker.png" data-scrollwhell="0" data-draggable="1"></div>
+			<div class="wrap-contact100">
+				<div class="contact100-form-title" style="background-image: url('contact/images/bg-01.jpg');">
+					<span class="contact100-form-title-1">
+						Contact Us
+					</span>
+
+					<span class="contact100-form-title-2">
+						Feel free to drop us a line below!
+					</span>
+					{% include '_messages.html' %}
+				</div>
+				<form class="contact100-form validate-form" action="contact" method="POST">
+					{% csrf_token %}
+					<div class="wrap-input100 validate-input" data-validate="Name is required">
+						<span class="label-input100">Full Name:</span>
+						<input class="input100" type="text" name="name" placeholder="Enter full name">
+						<span class="focus-input100"></span>
+					</div>
+
+					<div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
+						<span class="label-input100">Email:</span>
+						<input class="input100" type="text" name="email" placeholder="Enter email addess">
+						<span class="focus-input100"></span>
+					</div>
+
+					<div class="wrap-input100 validate-input" data-validate="Phone is required">
+						<span class="label-input100">Phone:</span>
+						<input class="input100" type="text" name="phone" placeholder="Enter phone number">
+						<span class="focus-input100"></span>
+					</div>
+
+					<div class="wrap-input100 validate-input" data-validate = "Message is required">
+						<span class="label-input100">Message:</span>
+						<textarea class="input100" name="subject" placeholder="Your Comment..."></textarea>
+						<span class="focus-input100"></span>
+					</div>
+
+					<div class="container-contact100-form-btn">
+						<button class="contact100-form-btn">
+							<span>
+								Submit
+								<i class="fa fa-long-arrow-right m-l-7" aria-hidden="true"></i>
+							</span>
+						</button>
+					</div>
+				</form>
+			</div>
+		</div>
+		<div id="dropDownSelect1"></div>
+		<footer class="container-fluid footer" style=" color: white;">
+			<div class="row footer-content" style="margin-left:30px;">
+				<div class="col-3" class="footer-section about">
+					<h3>Tracking System</h3>
+					<p>Education is the key to success</p>
+					<div class="social">
+						<i class="fa fa-instagram"></i>
+						<i class="fa fa-facebook-square"></i>
+						<i class="fa fa-linkedin"></i>
+					</div>
+				</div>
+				<div class="col-3" class="footer-section info">
+					<h3>Quick Links</h3>
+					<ul>
+						<li><a href="{% url 'home' %}">Home</a></li>
+						<li><a href="{% url 'about' %}">About</a></li>
+						<li><a href="{% url 'contact' %}">Contact</a></li>
+						<li><a href="/admin/">Admin</a></li>
+					</ul>
+				</div>
+				<div class="col-3" class="footer-section links">
+					<h3>NSFAS Details</h3>
+					<ul>
+						<li><a href="https://www.nsfas.org.za/content/">Nsfas Website</a></li>
+						Toll Free: 08000 67327
+						<div id="social">
+							<a href="https://www.instagram.com/mynsfas/"><i class="fa fa-instagram"></i></a>
+							<a href="https://www.facebook.com/nsfas.org.za"><i class="fa fa-facebook-square"></i></a>
+						</div>
+					</ul>
+				</div> 
+			</div>
+			<div class="container-fluid footer-bottom" style="width: 100vw; margin-left: -2.5%;">
+				<p>&copy;2021 TRACKING_SYSTEM - ALL RIGHTS RESERVED</p>
+			</div>
+		</footer>
+		<script src="{% static 'contact/vendor/jquery/jquery-3.2.1.min.js' %}"></script>
+		<script src="{% static 'contact/vendor/animsition/js/animsition.min.js' %}"></script>
+		<script src="{% static 'contact/vendor/bootstrap/js/popper.js' %}"></script>
+		<script src="{% static 'contact/vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+		<script src="{% static 'contact/vendor/select2/select2.min.js' %}"></script>
+		<script src="{% static 'contact/vendor/daterangepicker/moment.min.js' %}"></script>
+		<script src="{% static 'contact/vendor/daterangepicker/daterangepicker.js' %}"></script>
+		<script src="{% static 'contact/vendor/countdowntime/countdowntime.js' %}"></script>
+		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAKFWBqlKAGCeS1rMVoaNlwyayu0e0YRes"></script>
+		<script src="{% static 'contact/js/map-custom.js' %}"></script>
+		<script src="{% static 'contact/js/main.js' %}"></script>
+		
+		<!-- Global site tag (gtag.js) - Google Analytics -->
+		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-23581568-13"></script>
+		<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
+
+		gtag('config', 'UA-23581568-13');
+		</script> 
+	</body>
+</html>

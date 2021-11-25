@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+{% block content %}
+    <div class="col-md-5 mt-2">
+        <div class="container" style="display: flex; width: 40vw;"  id="courses1">
+            <div class="shadow-lg p-3 mb-5 bg-body rounded" id="courses">
+                <h3 id="modules"> COURSE: </h3>
+                <div class="list-group">
+                    {% for cour in  all_courses %}
+                        <font size="5">
+                            <a href="#" class="list-group-item list-group-item-action"></a>
+                        </font>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+<!-- </HomeSnippet> -->

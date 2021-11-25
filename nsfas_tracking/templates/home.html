@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+	<head>
+        <meta charset ="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Student Tracking System</title>
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'css/home.css' %}">
+        <link rel="icon" href="{% static 'imgs/home.png' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'contact/fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'contact/fonts/Linearicons-Free-v1.0.0/icon-font.min.css' %}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/4.1.0/litera/bootstrap.min.css">
+    </head>
+    <body>
+        <nav id="top_header" class="navbar navbar-expand-lg">
+            <div class="container-fluid main">
+                <a href="{% url 'home' %}">
+                <img class="logo" src="http://127.0.0.1:8000/static/imgs/nsfas.png" alt="Tracking System logo">
+                <h5>NSFAS Tracking System</h5></a>
+
+                <ul class="navbar-nav me-auto menu">
+                    <li class="nav-item"><a class="nav-link" href="{% url 'about' %}"><i class="fa fa-user"></i>About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'contact' %}"><i class="fa fa-envelope"></i>Contacts</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#"><i class="fa fa-cog"></i>Services</a></li> 
+                </ul>
+                    
+                <ul class="navbar-nav me-auto register">
+                    <li class="nav-item"><a class="nav-link" href="{% url 'stud_login' %}"><i class="fa fa-sign-in"></i>Login</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'register' %}"><i class="fa fa-pencil"></i>Register</a></li>
+                </ul>
+            </div>
+        </nav> 
+        <div style="background-image: url('imgs/newHome.jpeg') no-repeat;"></div>
+        <div class="container">
+            <div class="row justify-content-center h-100">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>NSFAS TRACKING SYSTEM</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>The system is developed to keep track of online class attendence so that the funding
+                        decision can be taken for those who did not attend the minimum attendance average set by
+                        the institutions(University/Colledge)</p> 
+                    </div> 
+                            
+                </div>
+            </div>
+        </div>
+        <footer class="container-fluid footer">
+            <div class="row footer-content" style="margin-left:30px;">
+                <div class="col-3" class="footer-section about">
+                    <h3>Tracking System</h3>
+                    <p>Education is the key to success</p>
+                    <div class="social">
+                        <i class="fa fa-instagram"></i>
+                        <i class="fa fa-facebook-square"></i>
+                        <i class="fa fa-linkedin"></i>
+                    </div>
+                </div>
+                <div class="col-3" class="footer-section info">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="{% url 'home' %}">Home</a></li>
+                        <li><a href="{% url 'about' %}">About</a></li>
+                        <li><a href="{% url 'contact' %}">Contact</a></li>
+                        <li><a href="/admin/">Admin</a></li>
+                    </ul>
+                </div>
+                <div class="col-3" class="footer-section links">
+                    <h3>NSFAS Details</h3>
+                    <ul>
+                        <li><a href="https://www.nsfas.org.za/content/">Nsfas Website</a></li>
+                        Toll Free: 08000 67327
+                        <div id="social">
+                            <a href="https://www.instagram.com/mynsfas/"><i class="fa fa-instagram"></i></a>
+                            <a href="https://www.facebook.com/nsfas.org.za"><i class="fa fa-facebook-square"></i></a>
+                        </div>
+                    </ul>
+                </div> 
+            </div>
+            <div class="container-fluid footer-bottom" style="width: 100vw; margin-left: -2.5%; ">
+                <p>&copy;2021 TRACKING_SYSTEM - ALL RIGHTS RESERVED</p>
+            </div>
+        </footer> 
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+        <!-- JavaScript Bundle with Popper -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+	</body>
+</html>

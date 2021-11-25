@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        {% load static %}
+        <title>Attendance Report</title>
+        <style> 
+            @page {
+                size: letter portrait;
+                width: 595pt;
+                height: 842pt;
+                @frame content_frame {
+                    left: 50pt;
+                    width: 512pt;
+                    top: 50pt;
+                    height: 692pt;
+                }  
+            } 
+            h1{
+                font-size: 1.5em;
+                text-transform: uppercase;
+                font-weight: 500;
+                text-align: center; 
+                margin-top:20px;   
+            }
+            h2{
+                font-weight: 500;
+                text-align: center;
+                margin-top:100px; 
+            }  
+            .center{
+                height: 150px;
+                margin-left:auto;
+                margin-right:auto;
+                margin-top: 10%;
+                text-align: center;
+                display:block;
+            }   
+            .splitData{
+                position: absolute;
+                text-align: right;
+                margin-top: 150px; 
+                right: 0;
+            }
+            .column{
+                margin-right: 400px;
+                right: 0;
+                width:50%;
+                position: absolute;
+                
+            }
+            h6 .FName{
+                display: flex;
+                font-size: 14px;
+                font-family:Arial, Helvetica, sans-serif;
+            } 
+            h6 .StudentNo{
+                display: flex;
+                font-size: 14px;
+                font-family:Arial, Helvetica, sans-serif;
+            }
+            h6 .LName{
+                display: flex;
+                font-size: 14px;
+                font-family:Arial, Helvetica, sans-serif;
+            } 
+            h6 .email{
+                display: flex;
+                font-size: 14px;
+                font-family:Arial, Helvetica, sans-serif;
+            }
+            .date{
+                display: flex; 
+            } 
+            h6 .average{
+                display: flex;
+                font-size: 14px;
+                font-family:Arial, Helvetica, sans-serif;
+            }
+            
+        
+
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <img class="center" height='120px' src="http://127.0.0.1:8000/static/nsfas.png" alt="Tracking System logo">
+            <h1>NSFAS TRACKING SYSTEM</h1>
+        </div>
+        <div class "container ">
+            <div class="row">
+		        <div class="col-md-5">
+                    <h6 class="StudentNo">Student No:  </h6>
+                    <h6 class="FName">First Name:  </h6>
+                    <h6 class="LName">Last Name:   </h6>
+                </div>
+                <div class="col-md-5 column">
+                    <h6 class="email">Email Address:</h6>
+                    <div class="font-size: 14px; display:flex; font-family:Arial, Helvetica, sans-serif;">
+                        <h6 class="date">Date Generated:</h6>  {{ time }}
+                    </div>
+                    <h6 class="average">Attendance Average: </h6>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <h2>Attendance Report Per Student</h2>
+            <hr>
+            <table style="margin-top: 20px;" class="table table-sm table-striped table-hover" cellspacing="0">
+                              
+                <thead>
+                    <tr>
+                        <td style="font-weight: bold;">Join Time</td> 
+                        <td style="font-weight: bold;">Leave Time</td> 
+                        <td style="font-weight: bold;">Duration</td> 
+                    </tr>
+                </thead>       
+            </table>
+            <hr>
+        </div>   
+    </body>
+</html>

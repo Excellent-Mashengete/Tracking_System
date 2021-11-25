@@ -1,0 +1,107 @@
+/* Made with love by Mutiullah Samim*/
+
+@import url('https://fonts.googleapis.com/css?family=Numans');
+
+html,body{
+    margin: 0;
+    padding: 0;
+    font-family: 'Numans', sans-serif;
+}
+.container-contact100{
+    align-content: center;
+}
+.radio{
+    display: flex;
+    font-size: 1em;
+    line-height: 15px;
+    letter-spacing: 2px;
+    padding: 15px;
+    color: white;
+    text-align: center;
+}
+.card{
+    margin-top: 30px;
+    width: 600px;
+    background-color: rgba(255, 255, 255, 0.863) !important;
+}
+.card-header{
+    color: rgb(255, 255, 255);
+    text-align: center;
+    background-color: rgba(0,0,0,0.5) !important;
+}
+.card-footer {
+    color: rgb(0, 0, 0);
+    font-size: 20px;
+}    
+.card-footer a{
+    margin-left: 4px;
+    color: blue;
+    font-size: 20px;
+}
+input:focus{
+    outline: 0 0 0 0  !important;
+    box-shadow: 0 0 0 0 !important;
+} 
+.remember{
+    color: rgb(0, 0, 0);
+}
+
+.showPasswordToggle{
+    color: #000000;
+    cursor: pointer;
+}
+input[type="checkbox"]{
+    -webkit-appearance: checkbox;
+    -moz-appearance: checkbox;
+    appearance: checkbox;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    margin-left: -50px;
+    margin-right: 5px;
+}
+input[type="password"]{
+    margin-bottom: .5em;
+}
+.wrap-input100{
+    margin-left: -50px;
+}
+#togglePassword{
+    position: relative;
+    margin-top:15px;
+    margin-left: 12px;
+    cursor: pointer;
+}
+
+.menu{
+    margin-left: 110px;
+}
+.menu li a{
+    height: 40px;
+    line-height: 43px;
+    margin: 5px;       
+    padding: 0px 22px;
+    font-size: 1em;
+    text-transform: uppercase;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-decoration: none;
+}
+.menu li:hover{
+    background-color: #ddd;
+    transition: all .3s;
+}
+#top_header{
+    margin: 0;
+    background: beige;
+    border-bottom: 2px solid beige;
+    padding: 20px;
+    justify-content: space-around;
+    align-self: center;
+
+} 
+.logo{
+    height: 50px;
+    margin-left:40px;
+    text-decoration: none;
+  }

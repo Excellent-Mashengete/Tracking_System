@@ -1,0 +1,62 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+html{
+    width: 100vw;
+}
+.stud{
+    margin-left: 110px;
+    cursor: pointer;
+}
+.stud li a{
+    height: 40px;
+    line-height: 43px;
+    margin: 5px;       
+    padding: 0px 22px;
+    font-size: 1em;
+    text-transform: uppercase;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-decoration: none;
+}
+#top_header{
+    background: beige;
+    border-bottom: 2px solid beige;
+    justify-content: space-around;
+    align-self: center;
+}
+.logo{
+    height: 50px;
+    margin-left:40px;
+}
+#panel{
+    padding:8px;
+    width: 350px;
+}
+#courses1{
+    margin: 20px 0px 0px -90px; 
+
+}
+#courses{
+    border-style: groove;
+    width: 500px;
+    margin-left: 10px;
+}
+#modules{
+    text-align: center;
+    margin: 1;
+}
+#module1{
+    width:700px;
+    margin: 20px 0px 0px -50px;
+    transition: all 0.5s ease;
+}
+.logout{
+    margin-left: 40%;
+}
+#sessions{
+    width:660px;
+    margin: 40px 0px 0px -50px;
+
+}

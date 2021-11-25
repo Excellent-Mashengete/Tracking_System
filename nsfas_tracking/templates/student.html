@@ -1,0 +1,67 @@
+{% extends "studentLayout.html" %}
+{% block content %}
+    <div class="row">
+        <div class="col ">
+            <div class="container" id="courses1">
+                <div class="shadow-lg p-3 mb-5 bg-body rounded" id="courses">
+                    <h5 id="modules"> MODULES </h5>
+                    <div class="list-group">
+                        {% for std in  all_module_names %}
+                            <font size="5">
+                            <a style="cursor:pointer;"class="list-group-item list-group-item-action">{{std.module_name}}</a>
+                            </font>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col col-sm-6">
+            <div class="container" id="module1">
+                <div class="shadow-lg p-2 bg-body rounded " >
+                    <button class="btn active"onclick="listView()">
+                        <i class="fa fa-bars"></i><h2>Sessions in List</h2></button>
+                    <button class="btn active" onclick="gridView()">
+                        <i class="fa fa-th-large"></i><h2>Sessions in Grid</h2></button>
+                </div>
+            </div>
+        <div>
+        <div class="col ">
+            <div class="container"id="sessions">
+                <h2><h3 id="Sessions">Announcement</h2>
+                    {% for sess in Sessions_attend %}
+                        <div class="row">
+                            <div class="column" style="background-color:#ccc;">
+                                <b>{{sess.module_name}}</b>
+                                <br>Posted on: {{sess.posted_time}}
+                                <br>Dear {{sess.module_code}}<br>  
+                                <br> {{sess.sess_body}}
+                                <br> {{sess.sess_link}}
+                                <br>Start: {{sess.sess_start}}<br>
+                                <br>Regards.<br>{{sess.sess_organiser}}<br><br>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>  
+    <script>
+        // Get the elements with class="column"
+        var elements = document.getElementsByClassName("column");
+        // Declare a loop variable
+        var i;
+
+         // List View
+        function listView() {
+            for (i = 0; i < elements.length; i++) {
+                elements[i].style.width = "100%";
+            }
+        }
+        // Grid View
+        function gridView() {
+            for (i = 0; i < elements.length; i++) {
+                elements[i].style.width = "50%";
+            }
+        }
+    </script>
+{% endblock %}

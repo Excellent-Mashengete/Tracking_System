@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+	<head>
+        <meta charset ="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+        <title>Delete student logins</title>
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'css/nsfas_tables.css' %}">
+        <link rel="icon" href="{% static 'imgs/nsfas.png' %}">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/js/bootstrap.bundle.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/4.1.0/litera/bootstrap.min.css">
+		
+        
+        <link href="https://cdn.datatables.net/1.10.18/css/dataTables.bootstrap4.min.css" rel="stylesheet">
+        <!-- Bootstrap core JavaScript-->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/buttons/1.7.1/js/dataTables.buttons.min.js"></script>
+        <!-- Page level plugin JavaScript-->
+        <script src="https://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/1.10.18/js/dataTables.bootstrap4.min.js"></script>  
+    </head>
+    <body>
+        <nav id="top_header" class="navbar navbar-expand-lg">
+            <div class="container-fluid main">
+                <a class="navbar-brand" href="{% url 'nsfas' %}">BACK</a>
+            </div>
+        </nav>  
+       
+        <div class="container col-md-10" style="margin-top:-7;">
+            {% include '_messages.html' %}
+            <table id="mytable"  class="table table-striped table-sm table-hover" cellspacing="0" width="100%">
+                <thead>
+                    <tr>
+                        <th class="th-sm">Student number</th>
+                        <th class="th-sm">Password</th>
+                        <th class="th-sm">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for range in stud_login %}
+                        <tr>
+                            <td>{{range.username }}</td>
+                            <td>{{range.password }}</td>
+                            <td>
+                                <a  href="/delete/{{ range.id }}" type="button" class="btn btn-outline-danger" 
+                                 onclick="return confirm('Are you sure you want to delete this {{range.username}}')">Delete</a>
+                            </td>
+                        </tr>  
+                    {% endfor %}
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th><a id="countRecords">Total: {{all_count}}</a></th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+        <script>
+            $(document).ready(function () {
+            $('#mytable').DataTable({
+                    "lengthMenu": [[5, 7 ,10, 25, 50, -1], [5, 7, 10, 25, 50, "All"]],
+                    
+                });
+            });
+
+        </script>
+	</body>
+</html>

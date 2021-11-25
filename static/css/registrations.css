@@ -1,0 +1,41 @@
+html,body{
+    margin: 0;
+    padding: 0;
+}
+.card{
+    margin-top: 30px;
+    margin-bottom: auto;
+ 
+    background-color: white;
+}   
+.card-header h3{
+    color: black;
+    text-align: center;
+}
+    
+input:focus{
+    outline: 0 0 0 0  !important;
+    box-shadow: 0 0 0 0 !important;
+}  
+#top_header{
+    margin: 0; 
+    background: beige;
+    border-bottom: 2px solid black; 
+    padding: 20px;
+}
+#top_header a{
+    border:true; 
+    color: black;
+    font-size: 20px;
+}
+#top_header a:hover{
+    color:rgb(50, 50, 255); 
+    transition: all 0.10s; 
+    visibility:visble; 
+    transition: all 0.5s ease;
+}
+.navbar {
+    background: whitesmoke;
+    border-bottom: 5px solid beige;
+    display: flex;
+}
