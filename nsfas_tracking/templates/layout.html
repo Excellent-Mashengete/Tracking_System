@@ -38,7 +38,7 @@
                     {% if user.is_authenticated %}
                         <li class="nav-item"><a class="nav-link" href="{% url 'lecture' %}">HOME</a></li>
                         <li class="nav-item" data-turbolinks="false">
-                            <a class="nav-link{% if request.resolver_match.view_name == 'calendar' %} active{% endif %}" href="{% url 'calendar' %}">Calendar</a>
+                            <a class="nav-link" href="/lecture/new" class="btn btn-primary mb-3">New event</a>
                         </li>
                     {% endif %}
                 </ul> 

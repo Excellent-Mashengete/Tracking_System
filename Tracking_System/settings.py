@@ -97,6 +97,7 @@ DATABASES = {
 		'PORT': '3306',
 		'USER': 'b3d50aa8ce6f3b',#'root',    #config('DB_USER'),
 		'PASSWORD': '9b0a7aff',#'nhlanhla',    #config('DB_PASSWORD'),
+        'default-character-set': 'utf8',
     }
 }
 

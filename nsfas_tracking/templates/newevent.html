@@ -1,12 +1,22 @@
 <!-- <NewEventSnippet> -->
 {% extends "layout.html" %}
 {% block content %}
-    <h1>New event</h1>
+    <h3>New event</h3>
     <form method="POST">
         {% csrf_token %}
         <div class="form-group">
             <label>Subject</label>
             <input class="form-control" name="ev-subject" type="text">
+        </div>
+        <div style="margin-left: -15px;" class="form-group col-sm-2" data-validate="Module Code required">
+            <label>Module Code: </label>
+            <select required="required" class="form-control" name= "ev-code" class="select">
+                    <option selected>Choose....</option>
+                {% for range in all_modules %}
+                    <option  value="{{range.module_code}}">{{range.module_code}}</option>
+                {% endfor %}
+            </select>
+          
         </div>
         <div class="form-group">
             <label>Attendees</label>
@@ -34,7 +44,7 @@
             <textarea class="form-control" name="ev-body" rows="3"></textarea>
         </div>
         <input class="btn btn-primary mr-2" type="submit" value="Create" />
-        <a class="btn btn-secondary" href="/calendar">Cancel</a>
+        <a class="btn btn-secondary" href="/lecture">Cancel</a>
     </form>
 {% endblock %}
   <!-- </NewEventSnippet> -->

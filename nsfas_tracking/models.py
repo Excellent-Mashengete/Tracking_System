@@ -46,17 +46,6 @@ class Course(models.Model):
         managed = False
         db_table = 'course'
 
-
-class DjangoSession(models.Model):
-    session_key = models.CharField(primary_key=True, max_length=40)
-    session_data = models.TextField()
-    expire_date = models.DateTimeField()
-
-    class Meta:
-        managed = False
-        db_table = 'django_session'
-
-
 class Lecturer(models.Model):
     lect_id = models.IntegerField(primary_key=True)
     lect_email = models.CharField(unique=True, max_length=40)

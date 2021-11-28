@@ -72,9 +72,6 @@ html{
     font-size: 36px; 
     margin-left: 50px;
 }
-#courses1{
-    margin: 20px 0px 0px 0px;
-}
 .profile{
     background-image: url("profile2.png");
     background-size: 60px;
@@ -83,10 +80,11 @@ html{
 .center{
     text-align: center;
 }
+#courses1{
+    margin: 20px 0px 0px 0px;
+}
 #courses{
-    border-style: groove;
     width: 500px;
-    margin-left: 10px;
 }
 #modules{
     text-align: center;

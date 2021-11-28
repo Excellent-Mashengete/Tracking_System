@@ -40,7 +40,7 @@ from reportlab.platypus import Image
 
 #resert password
 from django.contrib.sites.shortcuts import get_current_site
-from django.core.mail import send_mail
+from django.core.mail import send_mail, BadHeaderError, EmailMessage
 from django.db.models.query_utils import Q
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.contrib.auth.tokens import default_token_generator, PasswordResetTokenGenerator
@@ -338,30 +338,6 @@ def CompletePasswordRest(request, uidb64, token):
 def profile(request):
 	return render(request,'profile.html',{})
 
-def lect_details(username):
-	#query modules for the current logged in student 
-
-	#query names for the current logged in student 
-
-	course_hagdle = Course.objects.raw("SELECT course_code, course_name "+
-					   "FROM course c, module m "+
-					   "WHERE c.course_code = m.course_code "+
-					   "AND lect_id = "+username +"")
-
-	context ={'course_hagdle':course_hagdle}
-	return context
-
-def lecture(request):
-	context = initialize_context(request)
-	user = context['user']
-	email = user['email']
-	print(email)
-	username = email[0:email.find('@')]
-	print(username)
-	context = initialize_context(request)
-	
-	return render(request, 'lecture.html', context)
-
 def initialize_context(request):
 	context = {}
 	#Check for any errors in the session
@@ -408,10 +384,27 @@ def callback(request):
 
 
 # <CalendarViewSnippet>
-def calendar(request):
+def lecture(request):
 	context = initialize_context(request)
 	user = context['user']
+	email = user['email']
+	username = email[0:email.find('@')]
 
+
+	all_modules = Module.objects.raw("SELECT m.module_code, m.module_name "+
+									"FROM course c, module m "+
+									"WHERE c.course_code = m.course_code "+ 
+									"AND lect_id = "+username+"")
+
+	#query course name for the current logged in lecture 
+	all_course = Course.objects.raw("SELECT c.course_code, UPPER(c.course_name) "+
+										"FROM course c, module m "+
+										"WHERE c.course_code = m.course_code "+
+										"AND lect_id = "+ username+" "+
+										"GROUP BY lect_id ")
+	
+	context['all_modules'] = all_modules
+	context['all_course'] = all_course
   # Load the user's time zone
   # Microsoft Graph can return the user's time zone as either
   # a Windows time zone name or an IANA time zone identifier
@@ -451,7 +444,8 @@ def calendar(request):
 
 		context['events'] = events['value']
 
-	return render(request, 'calendar.html', context)
+
+	return render(request, 'lecture.html', context)
 # </CalendarViewSnippet>
 
 
@@ -460,12 +454,24 @@ def newevent(request):
 	context = initialize_context(request)
 	user = context['user']
 	name = user['name']
+	
+#	email = user['email']
+#	username = email[0:email.find('@')]
+
+	#all_modules = Module.objects.raw("SELECT m.module_code, m.module_name "+
+#									"FROM course c, module m "+
+#									"WHERE c.course_code = m.course_code "+ 
+	#								"AND lect_id = "+username+"")
+#
+	#context['all_modules'] = all_modules
+
 	if request.method == 'POST':
 		if (not request.POST['ev-subject']) or \
+			(not request.POST['ev-code']) or \
 			(not request.POST['ev-start']) or \
 			(not request.POST['ev-end']):
 				context['errors'] = [
-					{ 'message': 'Invalid values', 'debug': 'The subject, start, and end fields are required.'}
+					{ 'message': 'Invalid values', 'debug': 'The subject, module_Code start, and end fields are required.'}
 				]
 				return render(request, 'newevent.html', context)
 		attendees = None
@@ -476,27 +482,78 @@ def newevent(request):
 		# Create the event
 		token = get_token(request)
 		
-		print(token)
-		
 		create_event(
 			token,
-			request.POST['ev-subject'],
+			request.POST['ev-code'],
 			request.POST['ev-start'],
 			request.POST['ev-end'],
 			attendees,
 			request.POST['ev-body'],
 			user['timeZone'])
-		 
-	
-		postSession = Session(sess_organiser=name,module_code=request.POST['ev-subject'],sess_start=request.POST['ev-start'],sess_end=request.POST['ev-end'],sess_body= request.POST['ev-body'])
+		
+		postSession = Session(sess_organiser=name,module_code=request.POST['ev-code'],sess_start=request.POST['ev-start'],sess_end=request.POST['ev-end'],sess_body= request.POST['ev-body'])
+		code=request.POST.get('ev-code')
+		start=request.POST.get('ev-start')
+		
+		session_link = "LINK"
+		subject = code +' Online class '
+						
+		send_mail(subject,
+				'Dear '+code+' Students\n\n Good day \n\n '+ body+'\n\nClass Start at: '+start+'\nUse the following link to join our class: \n'+session_link+'\n\n Thank you \n'+name,
+				EMAIL_HOST_USER,
+				['Witnessmbhoni42@gmail.com','Mokgadi2000q@gmail.com','218091245@tut4life.ac.za'],
+				fail_silently=False,
+				)
+		print(send_mail)
+		#send_mail(code+' Online class ', 
+		#		'Dear '+code+' Students\n\n Good day \n\n '+body+'\n\nClass Start at: '+start+'\nUse the following link to join our class: \n'+session_link+'\n\n Thank you \n'+name,
+		#		'nsfastracking@gmail.com',
+		#		['218091245@tut4life.ac.za','mashengete@live.com'],
+		#		fail_silently=False)
+ 
 		postSession.save()
 
 		messages.success(request,'session created')
-		return HttpResponseRedirect(reverse('calendar'))
+		return HttpResponseRedirect(reverse('lecture'))
 	else:
 		return render(request, 'newevent.html', context)
 	print('hello')
 #</NewEventViewSnippet>
+
+
+
+#Uploading the Attendence 
+def attendence(request):
+	if request.method == "POST":
+		file = request.FILES['document']
+
+		data_set = file.read().decode('UTF-16')
+		new_data_set = io.StringIO(data_set)
+		
+		count = 0
+		while count <= 6:
+			next(new_data_set)
+			count += 1
+		print(new_data_set)
+		for column in csv.reader(new_data_set,delimiter='\t',quotechar="|"):
+			email1=column[4]
+			student_no = email1[0:email1.find('@')]
+
+			if student_no.isdigit():
+				attendence = AttendanceReg.objects.create(
+					student_num = student_no,
+					full_name = column[0],
+					join_time = column[1],
+					leave_time = column[2],
+					duration = column[3],
+					stud_email = email1	
+				)
+				attendence.save()
+				messages.success(request, 'Upload was successful')
+	messages.error(request, 'Upload of attendace was not successful')
+	return render(request, 'lecture.html',{})
+
+
 
 #################################################################################
 

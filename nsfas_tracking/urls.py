@@ -11,7 +11,7 @@ from django.contrib.auth import views as auth_views
 urlpatterns = [
     path('', views.home, name='home'),
     path('student/', views.student, name='student'),
-    path('lecture/', views.lecture, name='lecture'),
+
     path('about/', views.about, name='about'),
     path('contact/', views.contact, name='contact'),
     
@@ -20,10 +20,11 @@ urlpatterns = [
     path('signin', views.sign_in, name='signin'),
     path('signout', views.sign_out, name='signout'),
     path('callback', views.callback, name='callback'),
-    path('calendar/new', views.newevent, name='newevent'),
-    path('calendar', views.calendar, name='calendar'),
+    path('lecture/new', views.newevent, name='newevent'),
+    path('lecture/', views.lecture, name='lecture'),
     #################################################
 
+    path('/lecture/attendance/', views.attendence, name='attendance'),
     path('stud_login/', views.stud_login, name='stud_login'),
     path('register/',views.register, name='register'),
     path('nsfas_login/', views.nsfas_login, name='nsfas_login'),
