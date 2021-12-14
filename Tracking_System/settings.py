@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'crispy_forms',
+    'bootstrap4',
 ]
 
 MIDDLEWARE = [
@@ -92,13 +93,22 @@ WSGI_APPLICATION = 'Tracking_System.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-		'NAME': 'heroku_1aed79e13b9d9dd', #'school', #config('DB_NAME'),
-		'HOST':  'us-cdbr-east-04.cleardb.com',#'localhost',   #config('DB_HOST'),
+		'NAME': 'heroku_1aed79e13b9d9dd', #config('DB_NAME'),
+		'HOST': 'us-cdbr-east-04.cleardb.com',   #config('DB_HOST'),
 		'PORT': '3306',
-		'USER': 'b3d50aa8ce6f3b',#'root',    #config('DB_USER'),
-		'PASSWORD': '9b0a7aff',#'nhlanhla',    #config('DB_PASSWORD'),
+		'USER': 'b3d50aa8ce6f3b',    #config('DB_USER'),
+		'PASSWORD': '9b0a7aff',    #config('DB_PASSWORD'),
         'default-character-set': 'utf8',
     }
+    #'default': {
+    #    'ENGINE': 'django.db.backends.mysql',
+	#	'NAME': 'heroku_1aed79e13b9d9dd', #'school', #config('DB_NAME'),
+	#	'HOST':  'us-cdbr-east-04.cleardb.com',#'localhost',   #config('DB_HOST'),
+	#	'PORT': '3306',
+	#	'USER': 'b3d50aa8ce6f3b',#'root',    #config('DB_USER'),
+	#	'PASSWORD': '9b0a7aff',#'nhlanhla',    #config('DB_PASSWORD'),
+     #   'default-character-set': 'utf8',
+    #}
 }
 
 
@@ -141,6 +151,8 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATICFILES_DIRS=[os.path.join(BASE_DIR, 'static')]
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+DATABASE_ROUTERS = ['routers.db_routers.NSFAS_TRACKING_SYSTEM',]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field

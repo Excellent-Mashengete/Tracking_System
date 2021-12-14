@@ -29,7 +29,7 @@ from weasyprint import HTML
 import tempfile 
 from django.db.models import Count
 from xhtml2pdf import pisa
-from .forms import UpdateForm
+from .forms import UpdateForm, ReadStudForm
 
 #for report lab
 from reportlab.pdfgen import canvas
@@ -125,10 +125,10 @@ def register(request):
 		if User.objects.filter(email=email).exists():
 			messages.error(request, 'email is taken, choose another one')
 			context['has_error'] = True
-
+		
 		if context['has_error']:
-		   messages.error(request, 'Registration was not successful')
-		   return render(request, 'register.html', context)
+			messages.error(request, 'Registration was not successful')
+			return render(request, 'register.html', context)
 		
 		#Creates new user(student) and save in the Author table
 		stud = User.objects.create_user(username=username, email=email)
@@ -491,35 +491,12 @@ def newevent(request):
 			request.POST['ev-body'],
 			user['timeZone'])
 		
-		postSession = Session(sess_organiser=name,module_code=request.POST['ev-code'],sess_start=request.POST['ev-start'],sess_end=request.POST['ev-end'],sess_body= request.POST['ev-body'])
-		code=request.POST.get('ev-code')
-		start=request.POST.get('ev-start')
-		
-		session_link = "LINK"
-		subject = code +' Online class '
-						
-		send_mail(subject,
-				'Dear '+code+' Students\n\n Good day \n\n '+ body+'\n\nClass Start at: '+start+'\nUse the following link to join our class: \n'+session_link+'\n\n Thank you \n'+name,
-				EMAIL_HOST_USER,
-				['Witnessmbhoni42@gmail.com','Mokgadi2000q@gmail.com','218091245@tut4life.ac.za'],
-				fail_silently=False,
-				)
-		print(send_mail)
-		#send_mail(code+' Online class ', 
-		#		'Dear '+code+' Students\n\n Good day \n\n '+body+'\n\nClass Start at: '+start+'\nUse the following link to join our class: \n'+session_link+'\n\n Thank you \n'+name,
-		#		'nsfastracking@gmail.com',
-		#		['218091245@tut4life.ac.za','mashengete@live.com'],
-		#		fail_silently=False)
- 
-		postSession.save()
-
 		messages.success(request,'session created')
 		return HttpResponseRedirect(reverse('lecture'))
 	else:
 		return render(request, 'newevent.html', context)
 	print('hello')
 #</NewEventViewSnippet>
-
 
 
 #Uploading the Attendence 
@@ -583,9 +560,6 @@ def nsfas_login(request):
 	all_nsfas_id = list(map(itemgetter(0), emp))
 	all_passcodes = list(map(itemgetter(0), passcode))
 
-	print(all_nsfas_id)
-	print(all_passcodes)
-
 	if request.method=="POST":
 		emp_id = request.POST.get("nsfas_id", "Guest (or nothing)")
 		passward = request.POST.get("password", "Guest (or nothing)")
@@ -594,34 +568,43 @@ def nsfas_login(request):
 		for i in range(k):
 			context = {'data': request.POST}
 			if all_passcodes[i]==passward and all_nsfas_id[i] == emp_id:
-				
-				attend = AttendanceReg.objects.raw("SELECT * from attendance_reg f, student s "+
-													"WHERE f.student_num = s.student_num "+
-													"GROUP BY  f.student_num "+
-													"HAVING s.nsfas_status = 'Y' ")
-				context = {'attend': attend,}
-				return render(request, 'nsfas.html', context)
-				break
-		else:
-			messages.warning(request, 'Incorrect Username or Password, Please enter details')
-			return render(request, 'nsfas_login.html',context)
+
+				return redirect('nsfas')
+		messages.warning(request, 'Incorrect Username or Password, Please enter details')
+		return render(request, 'nsfas_login.html',context)
 	return render(request, 'nsfas_login.html')
 
-
 def nsfas(request):
-	attend = AttendanceReg.objects.raw("SELECT * from attendance_reg f, student s "+
-											"WHERE f.student_num = s.student_num "+
-											"GROUP BY  f.student_num "+
-											"HAVING s.nsfas_status = 'Y' ")
+	stud = Student.objects.all()
+	stud_login = User.objects.all()
+	login_count = stud_login.count()
+	all_count = stud.count()
+	has_NSFAS = stud.filter(nsfas_status='Y').count()
+	no_NSFAS = stud.filter(nsfas_status='N').count()
 	
+	context = {
+		'stud': get_showing_stud(request, stud),
+		'login_count':login_count,
+		'all_count': all_count,
+		'has_NSFAS': has_NSFAS,
+		'no_NSFAS': no_NSFAS,
+	}
+	return render(request, 'nsfas.html', context)
+
+def attendance_reg(request):
+	attend = AttendanceReg.objects.raw("SELECT * "
+										"FROM attendance_reg f, student s "+
+										"WHERE f.student_num = s.student_num "+
+										"AND s.nsfas_status = 'Y' "+
+										"GROUP BY  f.student_num ")
 	context = {
 		'attend': attend,
 	}
-	return render(request, 'nsfas.html',context)
+	return render(request, 'attendance.html',context)
 
 #display student login details
 def desplay_stud_login(request):
-	stud_login = AuthUser.objects.all()
+	stud_login = User.objects.all()
 	all_count = stud_login.count()
    
 	context = {
@@ -652,6 +635,29 @@ def display_stud_data(request):
 	}
 	return render(request,'display_stud_details.html',context)
 
+#Insert status
+def Insert(request):
+	if request.method == "GET":
+		form = UpdateForm()
+		return render(request,'insert.html', {'form':form})
+	else:
+		try:
+			form = UpdateForm(request.POST)
+			if form.is_valid():
+				form.save()
+			messages.success(request, 'Successful insertion of student')
+			return redirect('display_stud_data')
+		except:
+			messages.error(request, 'failed to insert a new student')
+			return render(request,'insert.html')
+
+def read_student(request, pk):
+	if request.method == 'GET':
+		stud = Student.objects.get(student_num=pk)
+		form = ReadStudForm(instance=stud)
+		context = {'form':form,
+					'data':stud }
+		return render(request,'read_student_data.html',context) 
 
 #update status
 def update(request, pk):
@@ -775,16 +781,18 @@ def export_pdf(request):
 #Exporting individual report in csv, word and pdf only those that have NSFAS Funding #
 
 def getIndividualReport(request, pk):
-	stud = AttendanceReg.objects.get(id=pk) #Code to get the student number
+	stud = AttendanceReg.objects.get(id=pk)#Code to get the student number
 	print('Student number is '+str(stud))
 
 	#QuerySet to get the number of attendance per individual student
-	numOfAttend = AttendanceReg.objects.raw("SELECT count(*) AS count, id FROM Attendance_reg WHERE student_num="+str(stud)+"")
+	numOfAttend = AttendanceReg.objects.raw("SELECT count(*) AS count, id FROM (Attendance_reg AS A inner join student AS S "+
+											"on S.student_num = A.student_num)"+ "WHERE A.student_num="+str(stud)+" AND nsfas_status = 'Y'")
 
 	#QuerySet to get  the number of session related to individual student
-	numOfSessionsPerStud = Session.objects.raw("SELECT session_id, count(*) AS numOfSessions "+
-									"FROM ((module AS MO inner join student_has_module AS ST on ST.module_code = MO.module_code) "+
-									"inner join session SE on ST.module_code = SE.module_code)"+
+	numOfSessionsPerStud = Session.objects.raw("SELECT sess_id, count(*) AS numOfSessions "+
+									"FROM (((module AS MO inner join course AS CO on CO.course_code = MO.course_code) "+
+									"inner join session SE on MO.module_code = SE.module_code) "+
+									"inner join student AS ST on ST.course_code = CO.course_code) "+
 									"WHERE student_num = "+str(stud)+"")
 	#Quering student data for the individual report
 	studentInfo = Student.objects.raw("SELECT * FROM student WHERE student_num = "+str(stud)+"")
@@ -805,21 +813,21 @@ def getIndividualReport(request, pk):
 	#Loop to get the total number of sessions uploaded
 	for ns in numOfSessionsPerStud:
 		sess = ns.numOfSessions #variable to store number of uploded sessions
- 
+
 	attendancePercentage = (int(attd)/int(sess))*100 #Getting the attendance percentage of an individual student
 
 	funded = AttendanceReg.objects.all()
 	template_path = 'pdf_file/StudReport.html'
-	time = str(datetime.datetime.now())
+	time = str(datetime.now())
 	context ={'funded':funded, 'time': time, 'attendancePercentage': attendancePercentage,
-			 'stud':stud, 'stud_fname': stud_fname, 'stud_lname':stud_lname, 'stud_email':stud_email, 'individual_attendance':individual_attendance}
+				'stud':stud, 'stud_fname': stud_fname, 'stud_lname':stud_lname, 'stud_email':stud_email, 'individual_attendance':individual_attendance}
 
-			 #"e_code = "+code_variable+"")
-	
+				#"e_code = "+code_variable+"")
+
 	#Create a Django responseobject, and specify content_type as pdf
 	response = HttpResponse(content_type='application/pdf')
 	response['Content-Disposition'] = 'filename= Students '+ \
-	str(datetime.datetime.now())+'.pdf'
+	str(datetime.now())+'.pdf'
 
 	#find the template and render it.
 	template = get_template(template_path)
@@ -828,33 +836,141 @@ def getIndividualReport(request, pk):
 	#create a pdf
 	pisa_status = pisa.CreatePDF(
 		html, dest=response)
-	
+
 	#if error then show some funy view
 	if pisa_status.err:
 		return HttpResponse('We had some errors <pre>' + html +' </pre>')
 
 	return response
 
-def IndReport_CSV(request):
+def IndReport_CSV(request, pk):
+	stud = AttendanceReg.objects.get(id=pk)#Code to get the student number
+
+	#QuerySet to get the number of attendance per individual student
+	numOfAttend = AttendanceReg.objects.raw("SELECT count(*) AS count, id FROM (Attendance_reg AS A inner join student AS S "+
+											"on S.student_num = A.student_num)"+ "WHERE A.student_num="+str(stud)+" AND nsfas_status = 'Y'")
+
+	#QuerySet to get  the number of session related to individual student
+	numOfSessionsPerStud = Session.objects.raw("SELECT sess_id, count(*) AS numOfSessions "+
+									"FROM (((module AS MO inner join course AS CO on CO.course_code = MO.course_code) "+
+									"inner join session SE on MO.module_code = SE.module_code) "+
+									"inner join student AS ST on ST.course_code = CO.course_code) "+
+									"WHERE student_num = "+str(stud)+"")
+
+	#Queryset of student table							
+	getStudent = Student.objects.raw("SELECT * FROM student WHERE student_num = "+str(stud)+"")
+
+	#getting values from student table fields
+	for std in 	getStudent:
+		get_name = std.stud_first_name
+		get_surname = std.stud_last_name
+
+	#Loop to get the total number of attended sessions
+	for na in numOfAttend:
+		attd = na.count #variable to store the number
+
+	#Loop to get the total number of sessions uploaded
+	for ns in numOfSessionsPerStud:
+		sess = ns.numOfSessions #variable to store number of uploded sessions
+
+	attendancePercentage = round((int(attd)/int(sess))*100,1) #Getting the attendance percentage of an individual student
+
+	
 	response = HttpResponse(content_type='text/csv')
-	response['Content-Disposition'] = 'attachment; filename=Attendence '+ \
+	response['Content-Disposition'] = 'attachment; filename='+str(stud)+'-'+str(get_name)+'-'+str(get_surname)+'-'+'Attendance '+ \
 		str(datetime.now())+'.csv'
 
 	#build in csv witer response
 	writer = csv.writer(response)
 
+	#Including attendance avearage row
+	writer.writerow(['Attendance Average: '+str(attendancePercentage)+'%'])
+
+	#Inserting empty row between attendance average and attendance headings to create space in between 
+	writer.writerow([''])
+
 	#Write The headings 
-	writer.writerow(['Student Number','Full Name','Attendance Reg','Leave Time',
+	writer.writerow(['Student Number','Full Name','Join Time','Leave Time',
 					 'Duration','Email'])
 	
 	#Passing data from my attendence table into variable attendence 
-	attendence = AttendanceReg.objects.all().values_list('student_num','full_name','join_time','leave_time','duration','stud_email')
+	attendence = AttendanceReg.objects.raw("SELECT * FROM attendance_reg WHERE student_num = "+str(stud)+"")
 	   
 	#altering through the attendence and accessing each data in the database
 	for attend in attendence:
-		writer.writerow(attend)
+		rows = (attend.student_num, attend.full_name, attend.join_time, attend.leave_time, attend.duration, attend.stud_email)
+		writer.writerow(rows)
 
 	return response
 
-def IndReport_WORD(request, pk):
-	return
+def IndReport_EXCEL(request, pk):
+	stud = AttendanceReg.objects.get(id=pk)#Code to get the student number
+
+	#QuerySet to get the number of attendance per individual student
+	numOfAttend = AttendanceReg.objects.raw("SELECT count(*) AS count, id FROM (Attendance_reg AS A inner join student AS S "+
+											"on S.student_num = A.student_num)"+ "WHERE A.student_num="+str(stud)+" AND nsfas_status = 'Y'")
+
+	#QuerySet to get  the number of session related to individual student
+	numOfSessionsPerStud = Session.objects.raw("SELECT sess_id, count(*) AS numOfSessions "+
+									"FROM (((module AS MO inner join course AS CO on CO.course_code = MO.course_code) "+
+									"inner join session SE on MO.module_code = SE.module_code) "+
+									"inner join student AS ST on ST.course_code = CO.course_code) "+
+									"WHERE student_num = "+str(stud)+"")
+
+	#Queryset of student table							
+	getStudent = Student.objects.raw("SELECT * FROM student WHERE student_num = "+str(stud)+"")
+
+	#getting values from student table fields
+	for std in 	getStudent:
+		get_name = std.stud_first_name
+		get_surname = std.stud_last_name
+
+	#Loop to get the total number of attended sessions
+	for na in numOfAttend:
+		attd = na.count #variable to store the number
+
+	#Loop to get the total number of sessions uploaded
+	for ns in numOfSessionsPerStud:
+		sess = ns.numOfSessions #variable to store number of uploded sessions
+
+	attendancePercentage = round((int(attd)/int(sess))*100,1) #Getting the attendance percentage of an individual student
+
+	response = HttpResponse(content_type='aaplication/ms-excel')
+	response['Content-Disposition'] = 'attachment; filename='+str(stud)+'-'+str(get_name)+'-'+str(get_surname)+'-'+'Attendance '+ \
+		str(datetime.now())+'.xls'
+
+	
+	work_book = xlwt.Workbook(encoding='utf-8') #create a work book eg excel file
+	work_sheet = work_book.add_sheet('Attendance') #Create and add sheet to my work book
+	
+	row_num = 0 #Add rown numbers
+
+	font_style = xlwt.XFStyle() #Add font sytle to row 0
+	
+	#Including attendance avearage row
+	totalFunded = ['Attendance Average: '+str(attendancePercentage)+'%']
+	
+	for col in range(len(totalFunded)):
+		work_sheet.write(row_num, col, totalFunded[col], font_style) 
+	
+	font_style.font.bold = True #Make row 3 bold
+	columns = ['Student Number','Full Name','Join Time','Leave Time','Duration','Email']
+	row_num =+2 #Add 2 rows
+	for col_num in range(len(columns)):
+		work_sheet.write(row_num, col_num, columns[col_num], font_style) #Add row number, column, column headers and font style
+	font_style = xlwt.XFStyle() #change font style from bold to normal
+	
+	#Passing data from my attendence table into variable attendence 
+	rows = AttendanceReg.objects.all().values_list('student_num','full_name','join_time','leave_time','duration','stud_email').filter(student_num=str(stud))
+	#rows = (attend.student_num, attend.full_name, attend.join_time, attend.leave_time, attend.duration, attend.stud_email)
+		
+	#rows = AttendanceReg.objects.raw("SELECT * FROM attendance_reg WHERE student_num = "+str(stud)+"")
+	#rows = AttendanceReg.objects.raw("SELECT * FROM attendance_reg WHERE student_num = "+str(stud)+"")
+
+	for row in rows:
+		row_num += 1
+		for col_num in range(len(row)):		
+			work_sheet.write(row_num, col_num, row[col_num], font_style) #Add row number, column, column data and font style
+	
+	work_book.save(response)
+	return response

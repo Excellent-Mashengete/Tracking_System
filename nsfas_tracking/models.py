@@ -9,12 +9,15 @@ from django.db import models
 
 
 class AttendanceReg(models.Model):
+    id = models.AutoField(primary_key=True)
     student_num = models.CharField(max_length=9)
     full_name = models.CharField(max_length=40)
     join_time = models.CharField(max_length=45)
     leave_time = models.CharField(max_length=45)
     duration = models.CharField(max_length=45)
     stud_email = models.CharField(max_length=45)
+    def __str__(self):
+        return self.student_num
 
     class Meta:
         managed = False
@@ -119,6 +122,8 @@ class Student(models.Model):
     stud_last_name = models.CharField(max_length=45)
     nsfas_status = models.CharField(max_length=1)
     course_code = models.CharField(max_length=15)
+    def __str__(self):
+        return self.student_num
 
     class Meta:
         managed = False

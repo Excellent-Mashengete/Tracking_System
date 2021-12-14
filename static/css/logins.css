@@ -7,21 +7,19 @@ html,body{
     padding: 0;
     font-family: 'Numans', sans-serif;
 }
-.container-contact100{
-    align-content: center;
-}
+
 .radio{
     display: flex;
     font-size: 1em;
-    line-height: 15px;
+    line-height: .8em;
     letter-spacing: 2px;
     padding: 15px;
-    color: white;
+    
     text-align: center;
 }
 .card{
     margin-top: 30px;
-    width: 600px;
+    width: 480px;
     background-color: rgba(255, 255, 255, 0.863) !important;
 }
 .card-header{
@@ -98,10 +96,12 @@ input[type="password"]{
     padding: 20px;
     justify-content: space-around;
     align-self: center;
-
 } 
 .logo{
     height: 50px;
     margin-left:40px;
     text-decoration: none;
-  }
+}
+
+  
+

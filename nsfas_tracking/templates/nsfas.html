@@ -1,94 +1,69 @@
-<!DOCTYPE html>
-<html>
-	<head>
-        <meta charset ="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>nsfas attendance reg</title>
-        {% load static %}
-        <link rel="stylesheet" href="{% static 'css/nsfas_tables.css' %}" > 
-        <link rel="icon" href="{% static 'imgs/nsfas.png' %}">
-        <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/4.1.0/litera/bootstrap.min.css">
-		
-        <link rel="stylesheet" type="text/css" href="{% static 'contact/fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
-        <link rel="stylesheet" type="text/css" href="{% static 'contact/fonts/Linearicons-Free-v1.0.0/icon-font.min.css' %}">
-        <link href="https://cdn.datatables.net/1.10.18/css/dataTables.bootstrap4.min.css" rel="stylesheet">
-       
-        <!-- Bootstrap core JavaScript-->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-        <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
-        <script src="https://cdn.datatables.net/buttons/1.7.1/js/dataTables.buttons.min.js"></script>
-        <!-- Page level plugin JavaScript-->
-        <script src="https://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js"></script>
-        <script src="https://cdn.datatables.net/1.10.18/js/dataTables.bootstrap4.min.js"></script>  
-       
-    </head>
-    <body>
-        <nav id="top_header" class="navbar navbar-expand-lg">
-            <div class="container-fluid main">
-                <a class="btn btn-secondary" href="{% url 'signout' %}" class="dropdown-item">Log out</a>
-            </div>
-        </nav>
+{% extends "nsfas_layout.html" %}
+{% block content %}
+{% load static %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/4.1.0/litera/bootstrap.min.css">
+
+	<!-- Small Box (Stat card) -->
+	<h5 style="margin-bottom:30px;" class="mb-2 mt-4">Dashboard</h5>
+	<div class="Dashboard" style="display: inline-flex;">
+		<div class="col-lg-6 ml-4">
+			<div class="small-box bg-info">
+				<div class="inner">
+                    <h3>5</h3>
+					<p>Attendance <br> Register</p>
+				</div>
+				<div class="icon">
+					<i class="fas fa-clipboard-list"></i>
+				</div>
+				<a href="/nsfas/attendance_reg" class="small-box-footer">
+					More info <i class="fas fa-arrow-circle-right"></i>
+				</a>
+			</div>
+		</div>
         
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/4.1.0/litera/bootstrap.min.css">
-    
-        <!-- Table content -->
-        <div class="container ">
-            <table id="mytable"  style="margin-top: 20px; witdth: 100%;" class="table table-striped table-hover">
-                <thead>
-                    <tr>
-                        <th class="th-sm">Student number</th>
-                        <th class="th-sm">Full Name</th>
-                        <th class="th-sm">Join Time</th>
-                        <th class="th-sm">Leave Time</th>
-                        <th class="th-sm">Duration</th>
-                        <th class="th-sm">Email</th>
-                        <th class="th-sm">Individual Reports</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for att in  attend %}
-                        <tr>
-                            <td >{{ att.student_num }}</td>
-                            <td>{{ att.full_name }}</td>
-                            <td>{{ att.join_time }}</td>
-                            <td>{{ att.leave_time }}</td>
-                            <td>{{ att.duration }}</td>
-                            <td>{{ att.stud_email }}</td>
-                            <td>
-                                <div class="rowReport ms-5">
-                                    <div class="col-ms-2">
-                                        <a href="/getIndividualReport/{{ att.id }}" class="btn btn-outline-primary" style=" text-align:center;" > PDF </a>
-                                    </div>
-                                    <div class="col-ms-2">
-                                        <a href="#" class="btn btn-outline-secondary" style=" text-align:center;" > DOC </a>
-                                    </div>
-                                    <div class="col-ms-2">
-                                        <a href="{% url 'IndReport_CSV' %}" class="btn btn-outline-success" style=" text-align:center;" > CSV </a>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr> 
-                    {% endfor %}
-                </tbody>
-            </table>
-            <div class="" style="margin:20px;">
-                <a href="{% url 'display_stud_data' %}" class="btn btn-outline-info">Update NSFAS Status</span></a>
-                <a href="{% url 'display_login_details' %}" class="btn btn-outline-danger">Delete Student Login-Details</a>
-                <a href="#" class="btn btn-outline-success">Report</a>
+        <div class="col-lg-6 ml-4">
+            <div class="small-box bg-success">
+                <div class="inner">
+                    <h3>{{has_NSFAS}}</h3>
+                    <p>Total Funded Students</p>
+                </div>
+                <div class="icon">
+                    <i class="fas fa-user-plus"></i>
+                </div>
+                <a href="display_stud_data/?filter=funded" class="small-box-footer">
+                    More info <i class="fas fa-arrow-circle-right"></i>
+                </a>
             </div>
         </div>
-        
-        <script>
-        $(document).ready(function () {
-                $('#mytable').DataTable({
-                    "dom":' <"search"f><"top"l>rt<"bottom"ip><"clear">',
-                    "order": [[ 3, "desc" ]],
-                    "lengthMenu": [[5, 7 ,10, 25, 50, -1], [5, 7, 10, 25, 50, "All"]],
-                });
-                $('.dataTables_length').addClass('bs-select');
-            });
-        </script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-	</body>
-</html>
+
+        <div class="col-lg-6 ml-4" >
+            <div class="small-box bg-secondary">
+                <div class="inner">
+                    <h3>{{no_NSFAS}}</h3>
+                    <p>Total Unfunded Students</p>
+                </div>
+                <div class="icon">
+                    <i class="fas fa-user-plus"></i>
+                </div>
+                <a href="display_stud_data/?filter=no_funded" class="small-box-footer">
+                    More info <i class="fas fa-arrow-circle-right"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col ml-4 mt-4" style="width: 320px;">
+        <div class="small-box bg-danger">
+            <div class="inner">
+                <h3>{{login_count}}</h3>
+                <p>Total Students Registered</p> 
+            </div>
+            <div class="icon">
+                <i class="fas fa-users"></i>
+            </div>
+            <a href="{% url 'display_login_details' %}" class="small-box-footer">
+                More info <i class="fas fa-arrow-circle-right"></i>
+            </a> 
+        </div>
+    </div>
+{% endblock %}

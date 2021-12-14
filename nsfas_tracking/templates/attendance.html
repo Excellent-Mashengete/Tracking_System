@@ -1,0 +1,82 @@
+{% extends "nsfas_layout.html" %}
+{% block content %}
+    {% load static %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/4.1.0/litera/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+
+    <section style="border-bottom: .2em solid grey; margin-bottom: 15px;" class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h3 class="card-title">Attendance Register</h3>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="{% url 'nsfas' %}">Home</a></li>
+                        <li class="breadcrumb-item active">Attendance Register</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Table content -->
+    <div class="class" class="col-md-11">
+        {% include '_messages.html' %}
+        <div class="card">
+            <div class="card-header">
+                <button style="float:right;" class="btn btn-success px-20"><i  class="fa fa-print fa-lg"></i>Print</button>
+            </div>
+            <div class="card-body">
+                <table id="mytable" width="100%;" class="table table-sm table-striped table-hover" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th class="th-sm">Student number</th>
+                            <th class="th-sm">Full Name</th>
+                            <th class="th-sm">Join Time</th>
+                            <th class="th-sm">Leave Time</th>
+                            <th class="th-sm">Duration</th>
+                            <th class="th-sm">Email</th>
+                            <th class="th-sm">Individual Reports</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for att in  attend %}
+                            <tr>
+                                <td >{{ att.student_num }}</td>
+                                <td>{{ att.full_name }}</td>
+                                <td>{{ att.join_time }}</td>
+                                <td>{{ att.leave_time }}</td>
+                                <td>{{ att.duration }}</td>
+                                <td>{{ att.stud_email }}</td>
+                                <td>
+                                    <div class="rowReport ms-5">
+                                        <div class="col-ms-2">
+                                            <a href="/getIndividualReport/{{ att.id }}" class="btn btn-outline-primary" style=" text-align:center;"> PDF </a>
+                                        </div>
+                                        <div class="col-ms-2">
+                                            <a href="/IndReport_EXCEL/{{ att.id }}" class="btn btn-outline-secondary" style=" text-align:center;"> EXCEL </a>
+                                        </div>
+                                        <div class="col-ms-2">
+                                            <a href="/IndReport_CSV/{{ att.id }}" class="btn btn-outline-success" style=" text-align:center;"> CSV </a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr> 
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $('#mytable').DataTable({
+                "order": [[ 3, "desc" ]],
+                "lengthMenu": [[5 ,10, 25, 50, -1], [5, 7, 10, 25, 50, "All"]],
+            });
+            $('.dataTables_length').addClass('bs-select');
+        });
+    </script>
+
+{% endblock %}

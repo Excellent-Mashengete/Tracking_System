@@ -90,16 +90,16 @@
         <div class "container ">
             <div class="row">
 		        <div class="col-md-5">
-                    <h6 class="StudentNo">Student No:  </h6>
-                    <h6 class="FName">First Name:  </h6>
-                    <h6 class="LName">Last Name:   </h6>
+                    <h6 class="StudentNo">Student No: {{ stud }} </h6>
+                   <!-- <h6 class="FName">First Name: {{studentInfo.stud_first_name}} </h6> -->
+                    <h6 class="LName">Full Name: {{ stud_fname }} {{ stud_lname }}  </h6>
                 </div>
                 <div class="col-md-5 column">
-                    <h6 class="email">Email Address:</h6>
+                    <h6 class="email">Email Address: {{ stud_email }}</h6>
                     <div class="font-size: 14px; display:flex; font-family:Arial, Helvetica, sans-serif;">
                         <h6 class="date">Date Generated:</h6>  {{ time }}
                     </div>
-                    <h6 class="average">Attendance Average: </h6>
+                    <h6 class="average">Attendance Average: {{ attendancePercentage|floatformat:1 }}%</h6>
                 </div>
             </div>
         </div>
@@ -114,7 +114,16 @@
                         <td style="font-weight: bold;">Leave Time</td> 
                         <td style="font-weight: bold;">Duration</td> 
                     </tr>
-                </thead>       
+                </thead>
+                <tbody>
+                    {% for att in  individual_attendance %}
+                        <tr>
+                            <td>{{ att.join_time }}</td>
+                            <td>{{ att.leave_time }}</td>
+                            <td>{{ att.duration }}</td>
+                        </tr>
+                    {% endfor %} 
+                </tbody>
             </table>
             <hr>
         </div>   

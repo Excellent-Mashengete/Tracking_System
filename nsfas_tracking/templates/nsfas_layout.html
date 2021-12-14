@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>nsfas</title>
+        {% load static %}
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+        <link rel="stylesheet" href="{% static 'fontawesome-free/css/all.min.css' %}">
+        <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+        <link rel="stylesheet" href="{% static 'dist/css/adminlte.min.css' %}">
+        <link rel="icon" href="{% static 'imgs/nsfas.png' %}">
+        <link rel="stylesheet" href="{% static 'css/nsfas.css' %}"> 
+        <link href="https://cdn.datatables.net/1.10.18/css/dataTables.bootstrap4.min.css" rel="stylesheet">
+    
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>    
+        <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/buttons/1.7.1/js/dataTables.buttons.min.js"></script>
+        <script src="https://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/1.10.18/js/dataTables.bootstrap4.min.js"></script>
+    
+
+     </head>
+    <body class="hold-transition sidebar-mini">
+        <div class="wrapper">
+            <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+                <!-- Left navbar links -->
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+                    </li>
+                    <li class="nav-item d-none d-sm-inline-block">
+                        <a href="index3.html" class="nav-link">Home</a>
+                    </li>
+                </ul>
+
+                <!-- Right navbar links -->
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="btn btn-secondary"  href="{% url 'signout' %}" class="dropdown-item">Log out <i class="fas fa-sign-out-alt"></i></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-widget="fullscreen" href="#" role="button">
+                            <i class="fas fa-expand-arrows-alt"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
+                            <i class="fas fa-th-large"></i>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <!-- Main Sidebar Container -->
+            <aside class="main-sidebar sidebar-dark-primary elevation-4">
+                <a href="{% url 'nsfas' %}" class="brand-link">
+                    <img src="{% static 'imgs/nsfas.png' %}" alt="Tracking System Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+                    <span class="brand-text font-weight-light">Nsfas</span>
+                </a>
+                <div class="sidebar">
+                    <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                        <div class="image">
+                            <img src="{% static 'imgs/user2-160x160.jpg' %}" style="height:60px; width:50px;" class="img-circle elevation-2" alt="User Image">
+                        </div>
+                        <div class="info">
+                            <a href="#" style="color: white;" class="d-block">Risenga Baloyi</a>
+                            <div class="form-check">
+                                <label style="color: white;line-height: 1.2em;;"class="form-check-label">
+                                  <input type="radio" class="form-check-input"checked="true">Online
+                                </label>
+                              </div>
+                        </div>
+                    </div>
+
+                    <!-- Sidebar Menu -->
+                    <nav class="mt-2">
+                        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                            <li class="nav-item">
+                                <a href="{% url 'nsfas' %}" class="nav-link">
+                                    <i class="nav-icon fas fa-tachometer-alt"></i>
+                                    <p>Dashboard</p>
+                                </a>
+                            </li>
+    
+                            <li class="nav-header">EXAMPLES</li>
+
+                            <li class="nav-item">
+                                <a href="/nsfas/attendance_reg" class="nav-link">
+                                    <i class="fas fa-clipboard-list"></i>
+                                    <p>Attendance Reg</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/nsfas/display_stud_data" class="nav-link">
+                                    <i class="fas fa-user-plus"></i>
+                                    <p>Update NSFAS status</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/nsfas/display_login_details" class="nav-link">
+                                    <i class="fas fa-users"></i>
+                                    <p>Delete Student Logins</p>
+                                </a>
+                            </li>
+                           
+                        </ul>
+                    </nav>
+                </div>
+            </aside>
+
+            <!-- Content Wrapper. Contains page content -->
+            <div class="content-wrapper">
+                <section class="content-header">
+                    {% block content %}{% endblock %}
+                </section>
+            </div>
+
+            <!-- Control Sidebar -->
+            <aside class="control-sidebar control-sidebar-dark"></aside>
+            <!-- Main Footer -->
+            <footer class="main-footer">
+                <strong>Copyright &copy; 2021</strong>
+               
+                <div class="float-right d-none d-sm-inline-block">
+                    <b>All rights reserved.
+                </div>
+            </footer>
+        </div>
+        <script>
+            $('li a').Click(function() {
+                $('li a').removeClass("active");
+                
+                $(this).addClass("active");
+          
+            });
+        </script>
+        
+        <!-- Bootstrap -->
+        <script src="{% static 'bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+        <!-- AdminLTE -->
+        <script src="{% static 'dist/js/adminlte.js' %}"></script>
+
+        <!-- AdminLTE for demo purposes -->
+        <script src="{% static 'dist/js/demo.js' %}"></script>
+        <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+        <script src="{% static 'dist/js/pages/dashboard3.js' %}"></script>
+    </body>
+</html>

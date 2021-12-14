@@ -6,14 +6,14 @@
         <title>Registration</title>
         {% load static %}
         
-        <link rel="stylesheet" href="{% static 'css/login.css' %}">
+        <link rel="stylesheet" href="{% static 'css/logins.css' %}">
         <link rel="icon" href="{% static 'imgs/register.png' %}">
         <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
         <link rel="stylesheet" type="text/css" href="{% static 'contact/fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
         <link rel="stylesheet" type="text/css" href="{% static 'contact/fonts/Linearicons-Free-v1.0.0/icon-font.min.css' %}">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/4.1.0/litera/bootstrap.min.css">
 		<link rel="stylesheet" type="text/css" href="{% static 'contact/css/util.css' %}">
-		<link rel="stylesheet" type="text/css" href="{% static 'contact/css/main.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'contact/css/mains.css' %}">
     </head>
     <body>
         <nav id="top_header" class="navbar navbar-expand-lg">
@@ -32,65 +32,60 @@
                  </ul>
             </div>
         </nav>  
-        <div class="container-contact100">
-            <div class="d-flex justify-content-center h-100">        
-                <div class="card">
-                    <div class="card-header">
-                        <h3>REGISTER LOGINS</h3> 
-                        {% include '_messages.html' %}
-                    </div>
+
+        <div class="container-contact100"> 
+            <div class="col-md-4">
+                <div class="card mt-5">
                     <div class="card-body">
-                        <form class="contact100-form validate-form" action="{% url 'register' %}" method="POST">
-                            {% csrf_token %}
-                            <div class="wrap-input100 validate-input" data-validate = "Valid student no is required: 111111111">
-                                <span class="label-input100"><i class="fa fa-user-plus fa-2x" aria-hidden="true"></i></span>
-                                <input class="input100" size:"50" type="text" name="username" placeholder="Enter student no" value="{{data.username}}">
-                                <span class="focus-input100"></span>
-                            </div>
-                            
-                            <div class="wrap-input100 validate-input" data-validate = "Valid email address is required: xyz@abc.com">
-                                <span class="label-input100"><i class="fa fa-envelope-o fa-2x" aria-hidden="true"></i></span>
-                                <input class="input100" size:"50" type="text" name="email" placeholder="Enter email address" value="{{data.email}}">
-                                <span class="focus-input100"></span>
-                            </div>
-
-                            <div class="wrap-input100 validate-input" data-validate="Password is required">
-                                <span class="label-input100"><i class="fa fa-key fa-2x" aria-hidden="true"></i></span>
-                                <input class="input100" type="password" id="password" name="password" placeholder="Enter Password">
-                                <span class="focus-input100"></span>
-                            </div>
-                            <ul class="wrap-input100" style="margin-left:-30%; font-size:.8em;">
-                                <li class="nav-item">Password must contain 6 to 20 characters long</li>
-                                <li class="nav-item">Password must contain atleast 1 lowercase letter(e.g. da).</li>
-                                <li class="nav-item">Password must contain atleast 1  uppercase letter(e.g. AD).</li> 
-                                <li class="nav-item">Password must contain atleast 1  number(e.g. 1234).</li> 
-                                <li class="nav-item">Password must contain atleast 1  special character(e.g. $,@,#,%,!).</li> 
-
-                            </ul>
-                            <div class="wrap-input100 validate-input" data-validate="Confirm Password required">
-                                <span class="label-input100"><i class="fa fa-key fa-2x" aria-hidden="true"></i></span>
-                                <input class="input100" type="password" id="password" name="password2" placeholder="Confirm Password">
-                                <span class="focus-input100"></span>
-                            </div>
-            
-                            <div class="container-contact100-form-btn">
-                                <button type="submit" class="contact100-form-btn" onclick="lsRememberMe()">
-                                    <span>Sign up<i class="fa fa-long-arrow-right m-l-7" aria-hidden="true"></i></span>
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="card-footer">
-                    
-                        <div class="container">
-                            <span class="text-lead lead" style="text-decoration: none;"></span>Have registered already: <a href="{% url 'stud_login' %}"> Sign In</a><br>
-                            <span style="color: black;" class="text-lead lead"></span>Forgot password?: <a href="{% url 'reset-password' %}"> Forgot Password</a><br>        
+                        <div class="card-header">
+                            <h3>REGISTER LOGINS</h3> 
+                            {% include '_messages.html' %}
                         </div>
-                    </div>	
+                        <div class="card-title py-3">
+                            <form class="contact100-form validate-form" action="{% url 'register' %}" method="POST">
+                                {% csrf_token %}
+                                <div class="wrap-input100 validate-input" data-validate = "Valid student no is required: 111111111">
+                                    <span class="label-input100"><i class="fa fa-user-plus fa-2x" aria-hidden="true"></i></span>
+                                    <input class="input100" size:"50" type="text" name="username" placeholder="Enter student no" value="{{data.username}}">
+                                    <span class="focus-input100"></span>
+                                </div>
+                                
+                                <div class="wrap-input100 validate-input" data-validate = "Valid email address is required: xyz@abc.com">
+                                    <span class="label-input100"><i class="fa fa-envelope-o fa-2x" aria-hidden="true"></i></span>
+                                    <input class="input100" size:"50" type="text" name="email" placeholder="Enter email address" value="{{data.email}}">
+                                    <span class="focus-input100"></span>
+                                </div>
+    
+                                <div class="wrap-input100 validate-input" data-validate="Password is required">
+                                    <span class="label-input100"><i class="fa fa-key fa-2x" aria-hidden="true"></i></span>
+                                    <input class="input100" type="password" id="password" name="password" placeholder="Enter Password">
+                                    <span class="focus-input100"></span>
+                                </div>
+                                
+                                <div class="wrap-input100 validate-input" data-validate="Confirm Password required">
+                                    <span class="label-input100"><i class="fa fa-key fa-2x" aria-hidden="true"></i></span>
+                                    <input class="input100" type="password" id="password" name="password2" placeholder="Confirm Password">
+                                    <span class="focus-input100"></span>
+                                </div>
+                
+                                <div class="container-contact100-form-btn">
+                                    <button type="submit" class="contact100-form-btn" onclick="lsRememberMe()">
+                                        <span>Sign up<i class="fa fa-long-arrow-right m-l-7" aria-hidden="true"></i></span>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="card-footer">
+                            <div class="container">
+                                <span class="text-lead lead" style="text-decoration: none;"></span>Have registered already: <a href="{% url 'stud_login' %}"> Sign In</a><br>
+                                <span style="color: black;" class="text-lead lead"></span>Forgot password?: <a href="{% url 'reset-password' %}"> Forgot Password</a><br>        
+                            </div>
+                        </div>	
+                    </div>
                 </div>
             </div>
         </div>
-        <div id="dropDownSelect1"></div>
+
         <script src="{% static 'contact/vendor/jquery/jquery-3.2.1.min.js' %}"></script>
         <script src="{% static 'contact/vendor/animsition/js/animsition.min.js' %}"></script>
         <script src="{% static 'contact/vendor/bootstrap/js/popper.js' %}"></script>
