@@ -35,6 +35,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = config('SECRET_KEY')
+GOOGLE_RECAPTCHA_SITE_KEY = config('GOOGLE_RECAPTCHA_SITE_KEY') #your reCAPTCHA SITE key 
+GOOGLE_RECAPTCHA_SECRET_KEY = config('GOOGLE_RECAPTCHA_SECRET_KEY') #your reCAPTCHA SECRET key 
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG')
@@ -92,6 +94,7 @@ WSGI_APPLICATION = 'Tracking_System.wsgi.application'
 
 DATABASES = {
     'default': {
+        #mysql://b3d50aa8ce6f3b:9b0a7aff@us-cdbr-east-04.com
         'ENGINE': 'django.db.backends.mysql',
 		'NAME': 'heroku_1aed79e13b9d9dd', #config('DB_NAME'),
 		'HOST': 'us-cdbr-east-04.cleardb.com',   #config('DB_HOST'),
@@ -100,15 +103,6 @@ DATABASES = {
 		'PASSWORD': '9b0a7aff',    #config('DB_PASSWORD'),
         'default-character-set': 'utf8',
     }
-    #'default': {
-    #    'ENGINE': 'django.db.backends.mysql',
-	#	'NAME': 'heroku_1aed79e13b9d9dd', #'school', #config('DB_NAME'),
-	#	'HOST':  'us-cdbr-east-04.cleardb.com',#'localhost',   #config('DB_HOST'),
-	#	'PORT': '3306',
-	#	'USER': 'b3d50aa8ce6f3b',#'root',    #config('DB_USER'),
-	#	'PASSWORD': '9b0a7aff',#'nhlanhla',    #config('DB_PASSWORD'),
-     #   'default-character-set': 'utf8',
-    #}
 }
 
 

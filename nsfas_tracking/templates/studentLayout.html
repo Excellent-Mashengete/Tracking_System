@@ -39,17 +39,10 @@
                 <ul class="navbar-nav me-auto stud">
                     {% if request.user.is_authenticated %}
                         <li class="nav-item"><a class="nav-link" href="{% url 'student' %}"> Home</a></li>
-                        <li><a class="nav-link" href="#">Calendar</a></li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Help</a>
-                            <div class="dropdown-menu">
-                                <a class="dropdown-item" href="#">contact</a>
-                                <a class="dropdown-item" href="#">Inquire</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#"> Change Password</a>
-                                <a class="dropdown-item" href="#">Admin contact</a>
-                            </div>
-                        </li>
+                        <li class="nav-item"><a class="nav-link" href="#"> Inquire</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#"> Change Password</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#"> Admin contact</a></li>
+                        
                     {% endif %}
                 </ul> 
                 <ul class="navbar-nav me-auto justify-content-end logout">

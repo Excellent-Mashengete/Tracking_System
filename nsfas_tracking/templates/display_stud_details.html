@@ -66,7 +66,10 @@
                                 <td>{{ std.stud_last_name }}</td>
                                 <td>{{ std.nsfas_status }}</td>
                                 <td>
-                                    <a href="#" type="button" class="btn btn-outline-success">
+
+                                    <a type="button" class="btn btn-primary" data-toggle="modal" data-target="#previewStud">Launch</a>
+
+                                    <a href="{% url 'read_student' std.student_num %}" type="button" class="btn btn-outline-success">
                                         <i class="fa fa-eye fa-lg"></i>view
                                     </a>
 
@@ -74,7 +77,49 @@
                                         <i class="fa fa-edit fa-lg"></i>edit
                                     </a>
                                 </td>
-                            </tr> 
+                            <td> 
+                            <div id="previewStud" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalPopoversLabel">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalPopoversLabel">Student details</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">×</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="">
+                                                Student no: {{ std.student_num }}
+                                            </div>
+                            
+                                            <div class="">
+                                                Student Email: {{ std.stud_email }}
+                                            </div>
+                            
+                                            <div class="">
+                                                First Name: {{ std.stud_first_name }}
+                                            </div>
+                            
+                                            <div class="">
+                                                Last Name: {{ std.stud_last_name }}
+                                            </div>
+                            
+                                            <div class="">
+                                                Course Code: {{ std.course_code }}
+                                            </div>
+                            
+                                            <div class="">
+                                                NSFAS Status: {{ std.nsfas_status }}
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                              </div>
+                            </td>
+                        </tr>
                         {% endfor %}
                     </tbody>
                     <tfoot>  

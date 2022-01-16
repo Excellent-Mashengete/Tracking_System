@@ -11,8 +11,6 @@ togglePassword.addEventListener('click', function (e) {
     this.classList.toggle('fa-eye-slash');
 });
 
-
-
 if (localStorage.checkbox && localStorage.checkbox != ""){
     rmCheck.setAttribute("checked", "checked");
     emailInput.value = localStorage.username;

@@ -21,10 +21,12 @@ urlpatterns = [
     path('signout', views.sign_out, name='signout'),
     path('callback', views.callback, name='callback'),
     path('lecture/new', views.newevent, name='newevent'),
+    path('lecture/profile', views.profile, name='profile'),
     path('lecture/', views.lecture, name='lecture'),
+    path('lecture/attendance/', views.attendence, name='attendance'),
     #################################################
 
-    path('lecture/attendance/', views.attendence, name='attendance'),
+
     path('stud_login/', views.stud_login, name='stud_login'),
     path('register/',views.register, name='register'),
     path('nsfas_login/', views.nsfas_login, name='nsfas_login'),
@@ -40,7 +42,7 @@ urlpatterns = [
     #Reset Password
     path('set-new-password/<uidb64>/<token>', views.CompletePasswordRest, name='reset-user-password'),
     path('request-reset-link', views.RequestPasswordResetEmail, name='reset-password'),
-
+   
     #Crud Operations
     #Delete and Update student 
     path('delete/<int:pk>', views.delete, name = 'delete'),

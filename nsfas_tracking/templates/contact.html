@@ -13,7 +13,9 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/4.1.0/litera/bootstrap.min.css">
 		<link rel="stylesheet" type="text/css" href="{% static 'contact/css/util.css' %}">
 		<link rel="stylesheet" type="text/css" href="{% static 'contact/css/main.css' %}">
-    </head>
+		<script src='https://www.google.com/recaptcha/api.js?render={{recaptcha_site_key}}'></script>
+
+	</head>
     <body>
         <nav id="top_header" class="navbar navbar-expand-lg">
             <div class="container-fluid main">
@@ -34,8 +36,8 @@
             </div>
         </nav>  
 
-		<div style="margin-top: -120px;"class="container-contact100">
-			<div class="contact100-map" id="google_map" data-map-x="40.722047" data-map-y="-73.986422" data-pin="images/icons/map-marker.png" data-scrollwhell="0" data-draggable="1"></div>
+		<div class="container-contact100" style="margin-top:-10%;">
+			<div class="contact100-map"  id="google_map" data-map-x="-34.0045631" data-map-y="18.4727382" data-pin="images/map-marker.png" data-scrollwhell="0" data-draggable="1"></div>
 			<div class="wrap-contact100">
 				<div class="contact100-form-title" style="background-image: url('contact/images/bg-01.jpg');">
 					<span class="contact100-form-title-1">
@@ -72,8 +74,9 @@
 						<textarea class="input100" name="subject" placeholder="Your Comment..."></textarea>
 						<span class="focus-input100"></span>
 					</div>
-
+					
 					<div class="container-contact100-form-btn">
+						<input type="hidden" id="g-recaptcha-response" name="g-recaptcha-response"> 
 						<button class="contact100-form-btn">
 							<span>
 								Submit
@@ -81,6 +84,11 @@
 							</span>
 						</button>
 					</div>
+
+					<p>This site is protected by reCAPTCHA and the Google
+						<a style="color:blue;" href="https://policies.google.com/privacy">Privacy Policy</a> and
+						<a style="color:blue;" href="https://policies.google.com/terms">Terms and Conditions</a> apply.
+					</p>
 				</form>
 			</div>
 		</div>
@@ -142,5 +150,13 @@
 
 		gtag('config', 'UA-23581568-13');
 		</script> 
+		<script>
+			//global grecaptcha
+			grecaptcha.ready(function() {
+			  grecaptcha.execute('{{recaptcha_site_key}}', {action: "/contact/"}).then(function(token) {
+				document.getElementById('g-recaptcha-response').value = token;
+			  });
+			});
+		  </script>
 	</body>
 </html>

@@ -3,7 +3,6 @@
     "use strict";
 
         $(document).ready(function () {
-
             var selector_map = $('#google_map');
             var img_pin = selector_map.attr('data-pin');
             var data_map_x = selector_map.attr('data-map-x');
@@ -15,8 +14,8 @@
                 img_pin = 'images/icons/location.png';
             }
             if (data_map_x == null || data_map_y == null) {
-                data_map_x = 40.007749;
-                data_map_y = -93.266572;
+                data_map_x = -34.0045631;
+                data_map_y = 18.4727382;  
             }
             if (scrollwhell == null) {
                 scrollwhell = 0;

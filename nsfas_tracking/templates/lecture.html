@@ -60,20 +60,8 @@
                             <td>{{ event.subject }}</td>
                             <td>{{ event.start.dateTime|date:'n/d/Y g:i A' }}</td>
                             <td>{{ event.end.dateTime|date:'n/d/Y g:i A' }}</td>
-                            <td><a href={{ event.onlineMeeting.joinUrl }} target="blank"> Join Meeting</a> </td>
-                            
-                            </td>
-                            <td>
-                                <a href="calendar/edit" class="btn text-secondary px-0" style="font-size:20px;">
-                                    <i class="fa fa-edit fa-lg"></i>
-                                </a>
-                                <form action="#" method="POST" class="d-inline">
-                                    {% csrf_token %}
-                                    <button type="submit" class="btn">
-                                        <i class="fa fa-trash fa-2x text-danger float-right"></i>
-                                    </button>
-                                </form>
-                            </td>
+                            <td><a href={{ event.onlineMeeting.joinUrl }} target="blank"> Join Meeting</a></td>
+                            <td><a href="#" target="blank"> Download Attendance</a></td>
                         </tr>
                     {% endfor %}
                 {% endif %}

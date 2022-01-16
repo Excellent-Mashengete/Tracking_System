@@ -38,7 +38,7 @@
                     {% if user.is_authenticated %}
                         <li class="nav-item"><a class="nav-link" href="{% url 'lecture' %}">HOME</a></li>
                         <li class="nav-item" data-turbolinks="false">
-                            <a class="nav-link" href="/lecture/new" class="btn btn-primary mb-3">New event</a>
+                            <a class="nav-link" href="/lecture/new" class="btn btn-primary mb-3">New Session</a>
                         </li>
                     {% endif %}
                 </ul> 
@@ -61,8 +61,7 @@
                                 <h5 class="dropdown-item-text mb-0">{{ user.name }}</h5>
                                 <p class="dropdown-item-text text-muted mb-0">{{ user.email }}</p>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item{% if request.resolver_match.view_name == 'profile' %} active{% endif %}" href="{% url 'profile' %}">Profile</a>
-                                <a href="#" class="dropdown-item">Profile</a>
+                                <a href="/lecture/profile" class="dropdown-item">Profile</a>
                                 <a href="{% url 'signout' %}" class="dropdown-item">Sign Out</a>
                             </div>
                         </li>

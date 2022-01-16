@@ -2,7 +2,7 @@ from __future__ import print_function
 import django
 from django.contrib.messages.api import success
 from django.shortcuts import render, redirect, get_list_or_404,HttpResponseRedirect
-from django.http import HttpResponse, HttpResponseRedirect, JsonResponse, FileResponse
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse, FileResponse, response
 from django.urls import reverse
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, update_session_auth_hash
@@ -12,6 +12,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm, PasswordResetForm
 import mysql.connector
 from django.core.mail import send_mail, BadHeaderError, EmailMessage
+from requests.models import codes
 from Tracking_System.settings import EMAIL_HOST_USER, EMAIL_FROM_USER
 from .models import *
 from operator import itemgetter
@@ -22,13 +23,14 @@ import csv, io
 import json
 import openpyxl 
 import xlwt
+import requests
 from django.core.paginator import Paginator
 import sys
 from django.template.loader import get_template, render_to_string
 from weasyprint import HTML
 import tempfile 
 from django.db.models import Count
-from xhtml2pdf import pisa
+from xhtml2pdf import context, pisa
 from .forms import UpdateForm, ReadStudForm
 
 #for report lab
@@ -45,7 +47,7 @@ from django.db.models.query_utils import Q
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.contrib.auth.tokens import default_token_generator, PasswordResetTokenGenerator
 from django.utils.encoding import force_bytes, force_str, force_text
-from Tracking_System.settings import EMAIL_FROM_USER
+from Tracking_System.settings import EMAIL_FROM_USER, GOOGLE_RECAPTCHA_SECRET_KEY, GOOGLE_RECAPTCHA_SITE_KEY
 from django.views import View
 
 #Ms authentication system
@@ -54,7 +56,6 @@ from datetime import datetime, timedelta
 from dateutil import tz, parser
 from nsfas_tracking.auth_helper import get_sign_in_flow, get_token_from_code, store_user, remove_user_and_token, get_token
 from nsfas_tracking.graph_helper import *
-
 
 global cursor4
 # The landing Page.
@@ -67,8 +68,8 @@ def about(request):
 
 #The contact page
 def contact(request):
-	messages.error(request, 'Complaint lodged failed to send')
-	return render(request, 'contact.html', {})
+	
+	return render(request, 'contact.html', {'recaptcha_site_key': GOOGLE_RECAPTCHA_SITE_KEY})
 
 			#STUDENT 
 ############################################################################
@@ -194,7 +195,7 @@ def student_details(username):
 
 	
 	#query session for the current logged in student
-	Sessions_attend = Session.objects.raw("SELECT * "+
+	Sessions_attend = Session.objects.raw("SELECT * "
 										"FROM session se,  module m, course c, student s "+ 
 										"WHERE se.module_code = m.module_code "+ 
 										"AND m.course_code = c.course_code "+
@@ -240,98 +241,14 @@ def stud_profile(request):
 
 #Student Password Reset
 def RequestPasswordResetEmail(request):
-	if request.method == "POST":
-		user_mail = request.POST.get('email')
-
-		current_site = get_current_site(request)
-
-		user = User.objects.filter()
-
-		if user.exists():
-			email_contents = {
-				'user':user[0],
-				'domain': current_site.domain,
-				'uid':urlsafe_base64_encode(force_bytes(user[0].pk)),
-				'token': PasswordResetTokenGenerator().make_token(user[0]),
-			} 
-			link = reverse('reset-user-password', kwargs={
-				'uidb64': email_contents['uid'], 'token': email_contents['token']})
-			
-			email_subject = 'Please follow password reset instrunction'
-
-			reset_url = 'http://'+current_site.domain+link
-
-			send_mail(email_subject, 
-					'Hi there, Please click the link below to rest your password \n'+ reset_url, 
-					'nsfastracking@gmail.com',
-					[user_mail], 
-					fail_silently=False)
-			messages.warning(request, 'Unable to send reset link, try again later')
-			return render(request,'Authenticate/reset-password.html',{})
-
-		messages.success(request, 'We have sent you an email')
-		return render(request, 'Authenticate/reset-password.html',{})
+	
 	return render(request, 'Authenticate/reset-password.html',{})
 
 
 def CompletePasswordRest(request, uidb64, token): 
-	context = {
-		'uidb64':uidb64,
-		'token':token
-	}
-	if request.method =="POST":
-		password = request.POST.get('password')
-		password2 = request.POST.get('password2')
-
-		if password != password2:
-			messages.error(request, 'Passwords do not match')  
-			return render(request, 'Authenticate/set-new-password.html',context)
-
-		specialSym =['$','@','#','%','!']
-
-		if len(password) < 6:
-			messages.error(request, 'Password too low')
-			return render(request, 'Authenticate/set-new-password.html',context)
-
-		elif len(password) > 20:
-			messages.error(request, 'Password exceed 20 characters')
-			return render(request, 'Authenticate/set-new-password.html',context)
-		
-		elif not any(char.isdigit() for char in password):
-			messages.error(request, 'Password does not contain a digit')
-			return render(request, 'Authenticate/set-new-password.html',context)
-		
-		elif not any(char.isupper() for char in password):
-			messages.error(request, 'Password does not have a uppercase letter')
-			return render(request, 'Authenticate/set-new-password.html',context)
-		
-		elif not any(char.islower() for char in password):
-			messages.error(request, 'Password does not have a lower letter')
-			return render(request, 'Authenticate/set-new-password.html',context)
-		
-		elif not any(char in specialSym for char in password):
-			messages.error(request, 'Password does not contain special character')
-			return render(request, 'Authenticate/set-new-password.html',context)
-
-		try:
-			user_id = force_text(urlsafe_base64_decode(uidb64))
-			user = User.objects.get(pk=user_id)
-			#Encrypt the new user password 
-			user.set_password(password)
-			user.save()
-			messages.success(request, 'Password reset successfuly')
-			return redirect('stud_login')
-		except Exception as identifier:
-			
-			print(identifier)
-			messages.warning(request, 'Something went wrong, try again')
-			return render(request, 'Authenticate/set-new-password.html',context)
-
 	return render(request, 'Authenticate/set-new-password.html',context)
-
-
-
-			#Lecture
+	
+	#Lecture
 #Password authentication using microsoft API'S
 ##########################################################################
 #</HomeViewSnippet>
@@ -441,10 +358,25 @@ def lecture(request):
 		for event in events['value']:
 			event['start']['dateTime'] = parser.parse(event['start']['dateTime'])
 			event['end']['dateTime'] = parser.parse(event['end']['dateTime'])
-
+			code = event['subject']
+			meeting = event['onlineMeeting']['joinUrl']
+			start_time = event['start']['dateTime']
+			end_time = event['end']['dateTime']
+		
 		context['events'] = events['value']
-
-
+		name = user['name']
+		time = datetime.now()
+	
+	#email_subject = code + 'Online class'
+	#email_body = 'Dear '+code+' Students\n\nGood day\n\nClass Start at: '+str(start_time)+' Use the following link to join the class:'+meeting+' \n\nRegards\n'+name
+	if not Session.objects.filter(sess_link=meeting).exists():
+		postSession = Session(sess_organiser=name, module_code=code, sess_start=start_time, sess_end=end_time, sess_link=meeting, posted_time=time)
+		#send_mail(email_subject, 
+		#			email_body,
+		#			'mashengetee@gmail.com',
+		#			['mashengete@live.com', '218091245@tut4life.ac.za'], 
+		#			fail_silently=False)
+		postSession.save()
 	return render(request, 'lecture.html', context)
 # </CalendarViewSnippet>
 
@@ -453,17 +385,15 @@ def lecture(request):
 def newevent(request):
 	context = initialize_context(request)
 	user = context['user']
-	name = user['name']
-	
-#	email = user['email']
-#	username = email[0:email.find('@')]
+	email = user['email']
+	username = email[0:email.find('@')]
 
-	#all_modules = Module.objects.raw("SELECT m.module_code, m.module_name "+
-#									"FROM course c, module m "+
-#									"WHERE c.course_code = m.course_code "+ 
-	#								"AND lect_id = "+username+"")
-#
-	#context['all_modules'] = all_modules
+	all_modules = Module.objects.raw("SELECT m.module_code, m.module_name "+
+									"FROM course c, module m "+
+									"WHERE c.course_code = m.course_code "+ 
+									"AND lect_id = "+username+"")
+
+	context['all_modules'] = all_modules
 
 	if request.method == 'POST':
 		if (not request.POST['ev-subject']) or \
@@ -526,11 +456,13 @@ def attendence(request):
 					stud_email = email1	
 				)
 				attendence.save()
-				messages.success(request, 'Upload was successful')
+		messages.success(request, 'Upload was successful')
+		return HttpResponseRedirect(reverse('lecture'))
 	messages.error(request, 'Upload of attendace was not successful')
-	return render(request, 'lecture.html',{})
+	return HttpResponseRedirect(reverse('lecture'))
 
-
+def profile(request):
+	return render(request, 'profile.html', {})
 
 #################################################################################
 
@@ -677,6 +609,7 @@ def update(request, pk):
 		except:
 			messages.error(request, 'Update was not successful')
 			return render(request,'update.html')
+
 
 #Delete login Details
 def delete(request,pk):
