@@ -3,7 +3,7 @@
 
 app_id: "e473f8fc-4043-4fc0-b489-573abdec036c"
 app_secret: "nvM7Q~lsSn0M1VCXoQ6gNwIR564BfghfCxXdi"
-redirect: "http://localhost:8000/callback"
+redirect: "https://nsfastrackingapp.herokuapp.com/callback"
 scopes:
   - user.read
   - mailboxsettings.read
