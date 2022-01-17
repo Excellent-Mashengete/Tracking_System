@@ -12,11 +12,19 @@
         <link rel="stylesheet" type="text/css" href="{% static 'contact/fonts/Linearicons-Free-v1.0.0/icon-font.min.css' %}">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/4.1.0/litera/bootstrap.min.css">
 		<link rel="stylesheet" type="text/css" href="{% static 'contact/css/util.css' %}">
-		<link rel="stylesheet" type="text/css" href="{% static 'contact/css/main.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'contact/css/mains.css' %}">
 		<script src='https://www.google.com/recaptcha/api.js?render={{recaptcha_site_key}}'></script>
 
 	</head>
     <body>
+		<script>
+			//global grecaptcha
+			grecaptcha.ready(function() {
+			  grecaptcha.execute('{{recaptcha_site_key}}', {action: "/contact/"}).then(function(token) {
+				document.getElementById('g-recaptcha-response').value = token;
+			  });
+			});
+		  </script>
         <nav id="top_header" class="navbar navbar-expand-lg">
             <div class="container-fluid main">
                 <a href="{% url 'home' %}">
@@ -71,12 +79,12 @@
 
 					<div class="wrap-input100 validate-input" data-validate = "Message is required">
 						<span class="label-input100">Message:</span>
-						<textarea class="input100" name="subject" placeholder="Your Comment..."></textarea>
+						<textarea class="input100" name="body" placeholder="Your Comment..."></textarea>
 						<span class="focus-input100"></span>
 					</div>
 					
 					<div class="container-contact100-form-btn">
-						<input type="hidden" id="g-recaptcha-response" name="g-recaptcha-response"> 
+						<input type="hidden" id="g-recaptcha-response" name="g-recaptcha-response">
 						<button class="contact100-form-btn">
 							<span>
 								Submit
@@ -85,7 +93,7 @@
 						</button>
 					</div>
 
-					<p>This site is protected by reCAPTCHA and the Google
+					<p>This site is protected by reCAPTCHA and the Google<br>
 						<a style="color:blue;" href="https://policies.google.com/privacy">Privacy Policy</a> and
 						<a style="color:blue;" href="https://policies.google.com/terms">Terms and Conditions</a> apply.
 					</p>
@@ -150,13 +158,5 @@
 
 		gtag('config', 'UA-23581568-13');
 		</script> 
-		<script>
-			//global grecaptcha
-			grecaptcha.ready(function() {
-			  grecaptcha.execute('{{recaptcha_site_key}}', {action: "/contact/"}).then(function(token) {
-				document.getElementById('g-recaptcha-response').value = token;
-			  });
-			});
-		  </script>
 	</body>
 </html>

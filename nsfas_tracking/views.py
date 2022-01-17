@@ -31,7 +31,14 @@ from weasyprint import HTML
 import tempfile 
 from django.db.models import Count
 from xhtml2pdf import context, pisa
-from .forms import UpdateForm, ReadStudForm
+from .forms import UpdateForm, ReadStudForm, StudModelForm, BookModelForm
+from django.urls import reverse_lazy
+from django.views import generic
+from bootstrap_modal_forms.generic import (
+  BSModalReadView,
+  BSModalDeleteView,
+
+)
 
 #for report lab
 from reportlab.pdfgen import canvas
@@ -68,8 +75,20 @@ def about(request):
 
 #The contact page
 def contact(request):
-	
-	return render(request, 'contact.html', {'recaptcha_site_key': GOOGLE_RECAPTCHA_SITE_KEY})
+	if request.method == 'POST':
+		name = request.POST.get('name')
+		email = request.POST.get('email')
+		phone = request.POST.get('phone')
+		body = request.POST.get('body')
+
+		subject = "Website Inquiry"
+		message = 'Full Name: '+name+'\nEmail: '+email+'\nContacts: '+phone+'\n'+body
+		try:
+			send_mail(subject, message, EMAIL_HOST_USER, [EMAIL_HOST_USER])
+			messages.success(request, 'Website inquiry has been logged')
+		except BadHeaderError:
+			return HttpResponse('Invalid header found.')
+	return render(request, 'contact.html', {"recaptcha_site_key":GOOGLE_RECAPTCHA_SITE_KEY})
 
 			#STUDENT 
 ############################################################################
@@ -241,11 +260,92 @@ def stud_profile(request):
 
 #Student Password Reset
 def RequestPasswordResetEmail(request):
-	
+	if request.method == "POST":
+		user_mail = request.POST.get('email')
+
+		current_site = get_current_site(request)
+
+		user = User.objects.filter()
+
+		if user.exists():
+			email_contents = {
+				'user':user[0],
+				'domain': current_site.domain,
+				'uid':urlsafe_base64_encode(force_bytes(user[0].pk)),
+				'token': PasswordResetTokenGenerator().make_token(user[0]),
+			} 
+			link = reverse('reset-user-password', kwargs={
+				'uidb64': email_contents['uid'], 'token': email_contents['token']})
+			
+			email_subject = 'Please follow password reset instrunction'
+
+			reset_url = 'http://'+current_site.domain+link
+
+			send_mail(email_subject, 
+					'Hi there, Please click the link below to rest your password \n'+ reset_url, 
+					'nsfastracking@gmail.com',
+					[user_mail], 
+					fail_silently=False)
+			messages.warning(request, 'Unable to send reset link, try again later')
+			return render(request,'Authenticate/reset-password.html',{})
+
+		messages.success(request, 'We have sent you an email')
+		return render(request, 'Authenticate/reset-password.html',{})
 	return render(request, 'Authenticate/reset-password.html',{})
 
 
-def CompletePasswordRest(request, uidb64, token): 
+def CompletePasswordRest(request, uidb64, token):
+	context = {
+		'uidb64':uidb64,
+		'token':token
+	}
+	if request.method =="POST":
+		password = request.POST.get('password')
+		password2 = request.POST.get('password2')
+
+		if password != password2:
+			messages.error(request, 'Passwords do not match')  
+			return render(request, 'Authenticate/set-new-password.html',context)
+
+		specialSym =['$','@','#','%','!']
+
+		if len(password) < 6:
+			messages.error(request, 'Password too low')
+			return render(request, 'Authenticate/set-new-password.html',context)
+
+		elif len(password) > 20:
+			messages.error(request, 'Password exceed 20 characters')
+			return render(request, 'Authenticate/set-new-password.html',context)
+		
+		elif not any(char.isdigit() for char in password):
+			messages.error(request, 'Password does not contain a digit')
+			return render(request, 'Authenticate/set-new-password.html',context)
+		
+		elif not any(char.isupper() for char in password):
+			messages.error(request, 'Password does not have a uppercase letter')
+			return render(request, 'Authenticate/set-new-password.html',context)
+		
+		elif not any(char.islower() for char in password):
+			messages.error(request, 'Password does not have a lower letter')
+			return render(request, 'Authenticate/set-new-password.html',context)
+		
+		elif not any(char in specialSym for char in password):
+			messages.error(request, 'Password does not contain special character')
+			return render(request, 'Authenticate/set-new-password.html',context)
+
+		try:
+			user_id = force_text(urlsafe_base64_decode(uidb64))
+			user = User.objects.get(pk=user_id)
+			#Encrypt the new user password 
+			user.set_password(password)
+			user.save()
+			messages.success(request, 'Password reset successfuly')
+			return redirect('stud_login')
+		except Exception as identifier:
+			
+			print(identifier)
+			messages.warning(request, 'Something went wrong, try again')
+			return render(request, 'Authenticate/set-new-password.html',context) 
 	return render(request, 'Authenticate/set-new-password.html',context)
 	
 	#Lecture
@@ -362,21 +462,20 @@ def lecture(request):
 			meeting = event['onlineMeeting']['joinUrl']
 			start_time = event['start']['dateTime']
 			end_time = event['end']['dateTime']
-		
+			print(event)
 		context['events'] = events['value']
 		name = user['name']
 		time = datetime.now()
-	
-	#email_subject = code + 'Online class'
-	#email_body = 'Dear '+code+' Students\n\nGood day\n\nClass Start at: '+str(start_time)+' Use the following link to join the class:'+meeting+' \n\nRegards\n'+name
-	if not Session.objects.filter(sess_link=meeting).exists():
-		postSession = Session(sess_organiser=name, module_code=code, sess_start=start_time, sess_end=end_time, sess_link=meeting, posted_time=time)
-		#send_mail(email_subject, 
-		#			email_body,
-		#			'mashengetee@gmail.com',
-		#			['mashengete@live.com', '218091245@tut4life.ac.za'], 
-		#			fail_silently=False)
-		postSession.save()
+
+	#if not Session.objects.filter(sess_link=meeting).exists():
+	#	email_body = 'Dear '+code+' Students\n\nGood day\n\nClass Start at: '+str(start_time)+'\nUse the following link to join the class:'+meeting+' \n\nRegards\n'+name
+	#	postSession = Session(sess_organiser=name, module_code=code, sess_start=start_time, sess_end=end_time, sess_link=meeting, posted_time=time)
+	#	send_mail(email_subject, 
+	#					email_body,
+	#					'mashengetee@gmail.com',
+	#					['mashengete@live.com', '218091245@tut4life.ac.za'], 
+	#					fail_silently=False)
+	#	postSession.save()
 	return render(request, 'lecture.html', context)
 # </CalendarViewSnippet>
 
@@ -583,13 +682,18 @@ def Insert(request):
 			messages.error(request, 'failed to insert a new student')
 			return render(request,'insert.html')
 
-def read_student(request, pk):
-	if request.method == 'GET':
-		stud = Student.objects.get(student_num=pk)
-		form = ReadStudForm(instance=stud)
-		context = {'form':form,
-					'data':stud }
-		return render(request,'read_student_data.html',context) 
+# Read
+class BookReadView(BSModalReadView):
+    model = Student
+    template_name = 'read_student_data.html'
+
+#def read_student(request, pk):
+#	if request.method == 'GET':
+#		stud = Student.objects.get(student_num=pk)
+#		form = ReadStudForm(instance=stud)
+#		context = {'form':form,
+#					'data':stud }
+#		return render(request,'read_student_data.html',context) 
 
 #update status
 def update(request, pk):
@@ -610,6 +714,9 @@ def update(request, pk):
 			messages.error(request, 'Update was not successful')
 			return render(request,'update.html')
 
+class StudReadView(BSModalReadView):
+    model = User
+    template_name = 'view_student.html'
 
 #Delete login Details
 def delete(request,pk):
@@ -759,7 +866,7 @@ def getIndividualReport(request, pk):
 
 	#Create a Django responseobject, and specify content_type as pdf
 	response = HttpResponse(content_type='application/pdf')
-	response['Content-Disposition'] = 'filename= Students '+ \
+	response['Content-Disposition'] = 'filename= '+str(stud)+'-'+'Attendance '+ \
 	str(datetime.now())+'.pdf'
 
 	#find the template and render it.

@@ -56,6 +56,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'crispy_forms',
     'bootstrap4',
+    'bootstrap_modal_forms',
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [
@@ -96,11 +98,11 @@ DATABASES = {
     'default': {
         #mysql://b3d50aa8ce6f3b:9b0a7aff@us-cdbr-east-04.com
         'ENGINE': 'django.db.backends.mysql',
-		'NAME': 'heroku_1aed79e13b9d9dd', #config('DB_NAME'),
-		'HOST': 'us-cdbr-east-04.cleardb.com',   #config('DB_HOST'),
+		'NAME': config('DB_NAME'),#'heroku_1aed79e13b9d9dd', ,
+		'HOST': config('DB_HOST'), #'us-cdbr-east-04.cleardb.com',  
 		'PORT': '3306',
-		'USER': 'b3d50aa8ce6f3b',    #config('DB_USER'),
-		'PASSWORD': '9b0a7aff',    #config('DB_PASSWORD'),
+		'USER': config('DB_USER'), #'b3d50aa8ce6f3b',
+		'PASSWORD': config('DB_PASSWORD'), #'9b0a7aff',
         'default-character-set': 'utf8',
     }
 }

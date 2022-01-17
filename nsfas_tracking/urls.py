@@ -2,7 +2,7 @@ from tempfile import template
 from django.conf.urls import url
 from django.urls import include, path
 from . import views
-
+from nsfas_tracking import views
 from django.conf.urls.static import static
 from django.conf import settings
 from django.contrib import admin
@@ -13,7 +13,7 @@ urlpatterns = [
     path('student/', views.student, name='student'),
 
     path('about/', views.about, name='about'),
-    path('contact/', views.contact, name='contact'),
+    path('contact', views.contact, name='contact'),
     
     #################################################
     #Microsoft API's Links
@@ -46,7 +46,9 @@ urlpatterns = [
     #Crud Operations
     #Delete and Update student 
     path('delete/<int:pk>', views.delete, name = 'delete'),
-    path('nsfas/display_stud_data/read_student/<int:pk>', views.read_student, name= 'read_student'),
+    path('read/<int:pk>', views.BookReadView.as_view(), name='read_student'),
+    path('view_logins/<int:pk>', views.StudReadView.as_view(), name='view_student'),
+    #path('nsfas/display_stud_data/read_student/<int:pk>', views.read_student, name= 'read_student'),
     path('nsfas/display_stud_data/insert/', views.Insert, name = 'insert'),
     path('nsfas/display_stud_data/update/<int:pk>', views.update, name = 'update'),
     

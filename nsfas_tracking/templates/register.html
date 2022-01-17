@@ -14,6 +14,11 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/4.1.0/litera/bootstrap.min.css">
 		<link rel="stylesheet" type="text/css" href="{% static 'contact/css/util.css' %}">
 		<link rel="stylesheet" type="text/css" href="{% static 'contact/css/mains.css' %}">
+        <style>
+            p{
+                color:red;
+            }
+        </style>
     </head>
     <body>
         <nav id="top_header" class="navbar navbar-expand-lg">
@@ -60,6 +65,13 @@
                                     <span class="label-input100"><i class="fa fa-key fa-2x" aria-hidden="true"></i></span>
                                     <input class="input100" type="password" id="password" name="password" placeholder="Enter Password">
                                     <span class="focus-input100"></span>
+                                    <div id="message">
+                                        <h6>Password must contain the following:</h6>
+                                        <p id="letter" class="invalid">A <b>lowercase</b> letter</p>
+                                        <p id="capital" class="invalid">A <b>capital (uppercase)</b> letter</p>
+                                        <p id="number" class="invalid">A <b>number</b></p>
+                                        <p id="length" class="invalid">Minimum <b>7 characters</b></p>
+                                      </div>
                                 </div>
                                 
                                 <div class="wrap-input100 validate-input" data-validate="Confirm Password required">

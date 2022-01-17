@@ -67,8 +67,11 @@
 										<div class="col-md-4">	
 											<div class="form-group">
 												<label class="text-info">NSFAS Status:</label>
-												<input type="text" name="nsfas_status" class="form-control"  
-													value="{{stud.nsfas_status}}"/>
+												<select type="text" required class="form-control" name="nsfas_status" class="select">
+													<option selected>Choose....</option>	
+													<option  value="N">N</option>
+													<option  value="Y">Y</option>
+												</select>
 											</div>
 										</div>
 									</div>

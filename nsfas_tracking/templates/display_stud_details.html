@@ -1,6 +1,7 @@
 {% extends "nsfas_layout.html" %}
 {% block content %}
     {% load static %}
+    {% include "_modal.html" %}
     <link rel="stylesheet" type="text/css" href="{% static 'contact/fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/4.1.0/litera/bootstrap.min.css">
    
@@ -66,60 +67,18 @@
                                 <td>{{ std.stud_last_name }}</td>
                                 <td>{{ std.nsfas_status }}</td>
                                 <td>
-
-                                    <a type="button" class="btn btn-primary" data-toggle="modal" data-target="#previewStud">Launch</a>
-
-                                    <a href="{% url 'read_student' std.student_num %}" type="button" class="btn btn-outline-success">
+                                    <button type="button" class="read_student bs-modal btn btn-outline-success" data-form-url="{% url 'read_student' std.pk %}">
+                                        <i class="fa fa-eye fa-lg"></i> view
+                                    </button>
+                                    <!-- <a href="{% url 'read_student' std.student_num %}" type="button" class="btn btn-outline-success" data-target="#previewStud">
                                         <i class="fa fa-eye fa-lg"></i>view
-                                    </a>
+                                    </a> -->
 
                                     <a href="{% url 'update' std.student_num %}" class="btn btn-outline-primary">
                                         <i class="fa fa-edit fa-lg"></i>edit
                                     </a>
                                 </td>
-                            <td> 
-                            <div id="previewStud" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalPopoversLabel">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalPopoversLabel">Student details</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">×</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <div class="">
-                                                Student no: {{ std.student_num }}
-                                            </div>
-                            
-                                            <div class="">
-                                                Student Email: {{ std.stud_email }}
-                                            </div>
-                            
-                                            <div class="">
-                                                First Name: {{ std.stud_first_name }}
-                                            </div>
-                            
-                                            <div class="">
-                                                Last Name: {{ std.stud_last_name }}
-                                            </div>
-                            
-                                            <div class="">
-                                                Course Code: {{ std.course_code }}
-                                            </div>
-                            
-                                            <div class="">
-                                                NSFAS Status: {{ std.nsfas_status }}
-                                            </div>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                        </div>
-                                    </div>
-                                </div>
-                              </div>
-                            </td>
-                        </tr>
+                            </tr>
                         {% endfor %}
                     </tbody>
                     <tfoot>  
@@ -155,4 +114,17 @@
             $('.dataTables_length').addClass('bs-select');
         });
     </script>
+
+    <script type="text/javascript">
+        $(function () {
+      
+          // Read book buttons
+          $(".read_student").each(function () {
+              $(this).modalForm({formURL: $(this).data("form-url")});
+          });
+        
+        });
+      </script>
+   
+    
 {% endblock %}

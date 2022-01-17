@@ -1,7 +1,7 @@
 {% load widget_tweaks %}
 
 <div class="modal-header">
-    <h3 class="modal-title">Student Details</h3>
+    <h3 class="modal-title">Student Login Details</h3>
     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
         <span aria-hidden="true">&times;</span>
     </button>
@@ -9,26 +9,19 @@
 
 <div class="modal-body">
     <div class="">
-        Student No: {{ student.student_num }}
+        Username: {{ user.username }}
     </div>
 
     <div class="">
-        Email: {{ student.stud_email }}
+        Email: {{ user.email }}
     </div>
 
     <div class="">
-        First Name: {{ student.stud_first_name }}
+        Last Login: {{ user.last_login }}
     </div>
 
     <div class="">
-        Last Name: {{ student.stud_last_name }}
-    </div>
-
-    <div class="">
-        Course Code: {{ student.course_code }}
-    </div>
-    <div class="">
-        NSFAS Status: {{ student.nsfas_status }} 
+        Join Date: {{ user.date_joined }}
     </div>
 </div>
 
