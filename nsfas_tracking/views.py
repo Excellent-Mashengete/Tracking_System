@@ -467,15 +467,16 @@ def lecture(request):
 		name = user['name']
 		time = datetime.now()
 
-	#if not Session.objects.filter(sess_link=meeting).exists():
-	#	email_body = 'Dear '+code+' Students\n\nGood day\n\nClass Start at: '+str(start_time)+'\nUse the following link to join the class:'+meeting+' \n\nRegards\n'+name
-	#	postSession = Session(sess_organiser=name, module_code=code, sess_start=start_time, sess_end=end_time, sess_link=meeting, posted_time=time)
-	#	send_mail(email_subject, 
-	#					email_body,
-	#					'mashengetee@gmail.com',
-	#					['mashengete@live.com', '218091245@tut4life.ac.za'], 
-	#					fail_silently=False)
-	#	postSession.save()
+	if not Session.objects.filter(sess_link=meeting).exists():
+		email_subject = code+' Online class'
+		email_body = 'Dear '+code+' Students\n\nGood day\n\nClass Start at: '+str(start_time)+'\nUse the following link to join the class:'+meeting+' \n\nRegards\n'+name
+		postSession = Session(sess_organiser=name, module_code=code, sess_start=start_time, sess_end=end_time, sess_link=meeting, posted_time=time)
+		send_mail(email_subject, 
+						email_body,
+						'nsfastracking@gmail.com',
+						['218027296@tut4life.ac.za', '218133789@tut4life.ac.za', '218283764@tut4life.ac.za', '219297017@tut4life.ac.za','219449500@tut4life.ac.za'], 
+						fail_silently=False)
+		postSession.save()
 	return render(request, 'lecture.html', context)
 # </CalendarViewSnippet>
 
