@@ -96,13 +96,12 @@ WSGI_APPLICATION = 'Tracking_System.wsgi.application'
 
 DATABASES = {
     'default': {
-        #mysql://b3d50aa8ce6f3b:9b0a7aff@us-cdbr-east-04.com
         'ENGINE': 'django.db.backends.mysql',
-		'NAME': config('DB_NAME'),#'heroku_1aed79e13b9d9dd', ,
-		'HOST': config('DB_HOST'), #'us-cdbr-east-04.cleardb.com',  
+		'NAME': config('DB_NAME'),
+		'HOST': config('DB_HOST'), 
 		'PORT': '3306',
-		'USER': config('DB_USER'), #'b3d50aa8ce6f3b',
-		'PASSWORD': config('DB_PASSWORD'), #'9b0a7aff',
+		'USER': config('DB_USER'),
+		'PASSWORD': config('DB_PASSWORD'),
         'default-character-set': 'utf8',
     }
 }
@@ -158,14 +157,13 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 #for hosting app
 django_heroku.settings(locals())
 
-# add this to settings file
-#i created the email for the system specifically
+
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_FROM_USER = 'nsfastracking@gmail.com'
-EMAIL_HOST_USER = 'nsfastracking@gmail.com'
-EMAIL_HOST ='smtp.gmail.com'
-EMAIL_HOST_PASSWORD = 'Tracking#'
+EMAIL_FROM_USER = os.environ.get('EMAIL_HOST_USER')
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
+EMAIL_HOST = os.environ.get('EMAIL_HOST')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
