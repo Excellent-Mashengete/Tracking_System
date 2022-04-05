@@ -14,7 +14,7 @@ The system allows a lecturer to create teams meeting and upload an attendance li
 they had then bursary/scholarships scheme takes decision on way forward.
  
 ## Installation
-1. NEEDS DJANGO / DJANGO REST API TO RUN
-2. NEEDS MICROSOFT TEAMS API FOR CREATING MS TEAM MEETINGS
-3. NEEDS GOOGLE RECAPTCHA API FOR CONTACT FORM
+1. Needs Django web framework 
+2. Needs Microsoft Graph api in order to use Teams and Calender Events
+3. Needs Google Recaptcha V3 api for contact form
 4. Relational Database
